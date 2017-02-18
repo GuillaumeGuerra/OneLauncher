@@ -167,7 +167,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configuration\Launchers.xml">
+    <None Include="Configuration\Launchers_master-prod.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -195,7 +195,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configuration\Launchers2.xml">
+    <None Include="Configuration\Launchers_preview-uat.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configuration\Launchers_master-prod2.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

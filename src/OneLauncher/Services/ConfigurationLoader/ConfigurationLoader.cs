@@ -46,7 +46,7 @@ namespace OneLauncher.Services.ConfigurationLoader
         {
             var result = left.DeepClone();
 
-            result.Launchers=new List<LauncherLink>(left.Launchers); // To keep the same reference (it eases the UTs a lot, trust me ...)
+            result.Launchers = new List<LauncherLink>(left.Launchers); // To keep the same reference (it eases the UTs a lot, trust me ...)
             result.Launchers.AddRange(right.Launchers);
             result.SubGroups = MergeLaunchers(left.SubGroups.Concat(right.SubGroups)).ToList();
 
