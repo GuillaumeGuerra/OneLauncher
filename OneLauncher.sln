@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneLauncher.Tests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApplication", "tests\TestConsoleApplication\TestConsoleApplication.csproj", "{D68A669E-7681-476D-BF11-4988A471CAC5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E9F474B1-E171-4D86-9C5D-0B419337DADC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{D4EAF231-FCEB-495B-AADC-0877F8F53B68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{69025CE8-EACD-4F92-AFDE-14E92CCF4AA3} = {D4EAF231-FCEB-495B-AADC-0877F8F53B68}
+		{CDFA9B17-D9BB-42AC-B5D4-706BDAB1A5B9} = {E9F474B1-E171-4D86-9C5D-0B419337DADC}
+		{D68A669E-7681-476D-BF11-4988A471CAC5} = {E9F474B1-E171-4D86-9C5D-0B419337DADC}
 	EndGlobalSection
 EndGlobal

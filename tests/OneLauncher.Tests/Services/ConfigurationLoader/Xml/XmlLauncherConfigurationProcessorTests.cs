@@ -5,10 +5,10 @@ using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 
-namespace OneLauncher.Tests
+namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
 {
     [TestFixture]
-    public class LauncherConfigurationProcessorTests
+    public class XmlLauncherConfigurationProcessorTests
     {
         [Test]
         public void ShouldReplaceRootTokenWithRootDirectory()

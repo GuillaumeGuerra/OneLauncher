@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using NUnit.Framework;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 
-namespace OneLauncher.Tests
+namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
 {
     [TestFixture]
     public class XmlLauncherConfigurationReaderTests

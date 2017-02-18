@@ -5,7 +5,7 @@ using System.Threading;
 using NUnit.Framework;
 using OneLauncher.Services.CommandLauncher;
 
-namespace OneLauncher.Tests.CommandLauncher
+namespace OneLauncher.Tests.Services.CommandLauncher
 {
     [TestFixture]
     public class ExecuteCommandLauncherTests : CommonCommandLauncherTests<ExecuteCommandLauncher, ExecuteCommand>

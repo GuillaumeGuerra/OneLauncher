@@ -2,7 +2,7 @@ using NUnit.Framework;
 using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
 
-namespace OneLauncher.Tests.CommandLauncher
+namespace OneLauncher.Tests.Services.CommandLauncher
 {
     public class CommonCommandLauncherTests<TCommandLauncher, TCommand>
         where TCommandLauncher : ICommandLauncher, new()

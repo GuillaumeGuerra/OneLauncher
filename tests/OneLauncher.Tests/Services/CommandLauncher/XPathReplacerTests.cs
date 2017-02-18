@@ -4,7 +4,7 @@ using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Tests.Framework;
 
-namespace OneLauncher.Tests.CommandLauncher
+namespace OneLauncher.Tests.Services.CommandLauncher
 {
     [TestFixture]
     public class XPathReplacerTests : CommonCommandLauncherTests<XPathReplacer, XPathReplacerCommand>

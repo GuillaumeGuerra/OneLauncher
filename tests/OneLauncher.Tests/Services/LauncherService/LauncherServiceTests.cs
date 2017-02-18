@@ -7,11 +7,10 @@ using NUnit.Framework;
 using OneLauncher.Framework;
 using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
-using OneLauncher.Services.LauncherService;
 using OneLauncher.Services.MessageService;
-using OneLauncher.Tests.CommandLauncher;
+using OneLauncher.Tests.Services.CommandLauncher;
 
-namespace OneLauncher.Tests
+namespace OneLauncher.Tests.Services.LauncherService
 {
     [TestFixture]
     public class LauncherServiceTests
@@ -28,7 +27,7 @@ namespace OneLauncher.Tests
             plugin.Setup(mock => mock.CanProcess(It.IsAny<LauncherCommand>())).Returns(true).Verifiable();
             plugin.Setup(mock => mock.Execute(It.IsAny<LauncherCommand>())).Throws(new Exception("Big badabig boom")).Verifiable();
 
-            var launcherService = new LauncherService() { MessageService = message.Object, AllCommandLaunchers = new[] { plugin.Object } };
+            var launcherService = new OneLauncher.Services.LauncherService.LauncherService() { MessageService = message.Object, AllCommandLaunchers = new[] { plugin.Object } };
             launcherService.Launch(new LauncherLink() { Commands = new List<LauncherCommand>() { new ExecuteCommand() } });
 
             message.VerifyAll();
@@ -53,7 +52,7 @@ namespace OneLauncher.Tests
             otherPluginMock.Setup(mock => mock.CanProcess(It.IsAny<LauncherCommand>())).Returns(false).Verifiable();
 
             // NB : we register otherPluginMock first, to ensure at least one plugin refuses all given commands
-            var launcher = new LauncherService() { AllCommandLaunchers = new[] { otherPluginMock.Object, executeMock.Object, xpathMock.Object } };
+            var launcher = new OneLauncher.Services.LauncherService.LauncherService() { AllCommandLaunchers = new[] { otherPluginMock.Object, executeMock.Object, xpathMock.Object } };
             launcher.Launch(new LauncherLink()
             {
                 Commands = new List<LauncherCommand>() { executeCommand, xpathCommand }
@@ -73,7 +72,7 @@ namespace OneLauncher.Tests
                 .Verifiable();
 
             // No command launcher plugins at all, so obviously the service won't find any matching plugin
-            var launcherService = new LauncherService() { MessageService = message.Object, AllCommandLaunchers = new ICommandLauncher[0] };
+            var launcherService = new OneLauncher.Services.LauncherService.LauncherService() { MessageService = message.Object, AllCommandLaunchers = new ICommandLauncher[0] };
             launcherService.Launch(new LauncherLink()
             {
                 Commands = new List<LauncherCommand>()
@@ -95,7 +94,7 @@ namespace OneLauncher.Tests
                 .Setup(mock => mock.ShowException(It.Is<Exception>(e => e.Message == "Big badabig boom"))) // The fifth element, leeloo I love you ...
                 .Verifiable();
 
-            var launcherService = new LauncherService() { MessageService = message.Object, AllCommandLaunchers = new[] { executeMock.Object } };
+            var launcherService = new OneLauncher.Services.LauncherService.LauncherService() { MessageService = message.Object, AllCommandLaunchers = new[] { executeMock.Object } };
             launcherService.Launch(new LauncherLink()
             {
                 Commands = new List<LauncherCommand>()

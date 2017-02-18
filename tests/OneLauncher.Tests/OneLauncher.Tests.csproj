@@ -88,17 +88,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInitialize.cs" />
-    <Compile Include="CommandLauncher\BaseCommandLauncherTests.cs" />
-    <Compile Include="CommandLauncher\CommonCommandLauncherTests.cs" />
-    <Compile Include="CommandLauncher\ExecuteCommandLauncherTests.cs" />
-    <Compile Include="CommandLauncher\FileCopierTests.cs" />
-    <Compile Include="CommandLauncher\XPathReplacerTests.cs" />
-    <Compile Include="ConfigurationLoaderTests\ConfigurationLoaderTests.cs" />
+    <Compile Include="Services\CommandLauncher\BaseCommandLauncherTests.cs" />
+    <Compile Include="Services\CommandLauncher\CommonCommandLauncherTests.cs" />
+    <Compile Include="Services\CommandLauncher\ExecuteCommandLauncherTests.cs" />
+    <Compile Include="Services\CommandLauncher\FileCopierTests.cs" />
+    <Compile Include="Services\CommandLauncher\XPathReplacerTests.cs" />
+    <Compile Include="Services\ConfigurationLoader\ConfigurationLoaderTests.cs" />
     <Compile Include="Framework\ContainerOverrider.cs" />
     <Compile Include="Framework\ContainerOverriderTests.cs" />
     <Compile Include="Framework\TemporaryDirectory.cs" />
-    <Compile Include="LauncherConfigurationProcessorTests.cs" />
-    <Compile Include="LauncherServiceTests.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationProcessorTests.cs" />
+    <Compile Include="Services\LauncherService\LauncherServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,7 +114,7 @@
     </Compile>
     <Compile Include="RadialMenuItemBuilderTests.cs" />
     <Compile Include="ViewModels\OmniLauncherViewModelTests.cs" />
-    <Compile Include="XmlLauncherConfigurationReaderTests.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationReaderTests.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

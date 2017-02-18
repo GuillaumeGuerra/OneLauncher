@@ -5,7 +5,7 @@ using NUnit.Framework;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Tests.Framework;
 
-namespace OneLauncher.Tests.ConfigurationLoaderTests
+namespace OneLauncher.Tests.Services.ConfigurationLoader
 {
     [TestFixture]
     public class ConfigurationLoaderTests
@@ -36,7 +36,7 @@ namespace OneLauncher.Tests.ConfigurationLoaderTests
                     .Verifiable();
                 jsonLoader.Setup(mock => mock.Load($"{directory.Location}\\file2.json")).Returns(secondNode).Verifiable();
 
-                var loader = new ConfigurationLoader() { AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object } };
+                var loader = new OneLauncher.Services.ConfigurationLoader.ConfigurationLoader() { AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object } };
                 var launchers = loader.LoadConfiguration(directory.Location).ToList();
 
                 Assert.That(launchers, Has.Count.EqualTo(2));
