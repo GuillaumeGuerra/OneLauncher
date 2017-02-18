@@ -52,27 +52,22 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
         [Test]
         public void ShouldMergeLauncherFilesWhenRepoHasTheSameName()
         {
-            var firstLink = new LauncherLink();
-            var secondLink = new LauncherLink();
-            var thirdLink = new LauncherLink();
-            var fourthLink = new LauncherLink();
-
             var firstNode = new LaunchersNode()
             {
                 Header = "Repo1",
-                Launchers = { firstLink, secondLink },
+                Launchers = { new LauncherLink(), new LauncherLink() },
                 SubGroups =
                 {
                     new LaunchersNode()
                     {
                         Header = "SubGroup1",
-                        Launchers = { thirdLink },
+                        Launchers = { new LauncherLink() },
                         SubGroups =
                         {
                             new LaunchersNode()
                             {
                                 Header = "SubGroup1-1",
-                                Launchers = {fourthLink}
+                                Launchers = {new LauncherLink()}
                             }
                         }
 
@@ -126,30 +121,94 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                         {
                             new LaunchersNode()
                             {
-                                Header = "SubGroup1-1",
-                                Launchers = {fourthLink}
+                                Header = "SubGroup1-2", // New subgroup, won't be merged
+                                Launchers = {new LauncherLink()}
                             }
                         }
                     }
                 }
             };
 
-            var loader1 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-            loader1.Setup(mock => mock.CanProcess(It.IsAny<string>())).Returns<string>(s => s.EndsWith(".1")).Verifiable();
-            loader1.Setup(mock => mock.Load(It.IsAny<string>())).Returns(firstNode).Verifiable();
 
-            var loader2 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-            loader2.Setup(mock => mock.CanProcess(It.IsAny<string>())).Returns<string>(s => s.EndsWith(".2")).Verifiable();
-            loader2.Setup(mock => mock.Load(It.IsAny<string>())).Returns(firstNode).Verifiable();
+            var fourthNode = new LaunchersNode()
+            {
+                Header = "Repo1", // Again same repo than the initial one, should be merged
+                Launchers = { new LauncherLink() }
+            };
 
-            var loader3 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-            loader3.Setup(mock => mock.CanProcess(It.IsAny<string>())).Returns<string>(s => s.EndsWith(".3")).Verifiable();
-            loader3.Setup(mock => mock.Load(It.IsAny<string>())).Returns(firstNode).Verifiable();
+            using (var directory = new TemporaryDirectory())
+            {
+                File.WriteAllText($"{directory.Location}\\1.1", "");
+                File.WriteAllText($"{directory.Location}\\2.2", "");
+                File.WriteAllText($"{directory.Location}\\3.3", "");
+                File.WriteAllText($"{directory.Location}\\4.4", "");
 
-            var loader = new ConfigLoader() { AllConfigurationProcessors = new[] { loader1.Object, loader2.Object, loader3.Object } };
-            var launchers = loader.LoadConfiguration("").ToList();
+                var loader1 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
+                loader1.Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                    .Returns<string>(s => s.EndsWith(".1"))
+                    .Verifiable();
+                loader1.Setup(mock => mock.Load(It.IsAny<string>())).Returns(firstNode).Verifiable();
 
-            Assert.That(launchers, Has.Count.EqualTo(2));
+                var loader2 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
+                loader2.Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                    .Returns<string>(s => s.EndsWith(".2"))
+                    .Verifiable();
+                loader2.Setup(mock => mock.Load(It.IsAny<string>())).Returns(secondNode).Verifiable();
+
+                var loader3 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
+                loader3.Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                    .Returns<string>(s => s.EndsWith(".3"))
+                    .Verifiable();
+                loader3.Setup(mock => mock.Load(It.IsAny<string>())).Returns(thirdNode).Verifiable();
+
+                var loader4 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
+                loader4.Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                    .Returns<string>(s => s.EndsWith(".4"))
+                    .Verifiable();
+                loader4.Setup(mock => mock.Load(It.IsAny<string>())).Returns(fourthNode).Verifiable();
+
+                var loader = new ConfigLoader()
+                {
+                    AllConfigurationProcessors = new[] {loader1.Object, loader2.Object, loader3.Object, loader4.Object }
+                };
+                var launchers = loader.LoadConfiguration(directory.Location).ToList();
+
+                Assert.That(launchers, Has.Count.EqualTo(2));
+
+                Assert.That(launchers[0].Header, Is.EqualTo("Repo1"));
+                Assert.That(launchers[0].Launchers,
+                    Is.EquivalentTo(new[] {firstNode.Launchers[0], firstNode.Launchers[1], thirdNode.Launchers[0], fourthNode.Launchers[0] }));
+
+                Assert.That(launchers[0].SubGroups, Has.Count.EqualTo(3));
+                Assert.That(launchers[0].SubGroups[0].Header, Is.EqualTo("SubGroup1"));
+                Assert.That(launchers[0].SubGroups[0].Launchers,
+                    Is.EquivalentTo(new[] {firstNode.SubGroups[0].Launchers[0], thirdNode.SubGroups[1].Launchers[0]}));
+                Assert.That(launchers[0].SubGroups[0].SubGroups, Has.Count.EqualTo(2));
+                Assert.That(launchers[0].SubGroups[0].SubGroups[0].Header, Is.EqualTo("SubGroup1-1"));
+                Assert.That(launchers[0].SubGroups[0].SubGroups[0].Launchers,
+                    Is.EquivalentTo(new[] {firstNode.SubGroups[0].SubGroups[0].Launchers[0]}));
+                Assert.That(launchers[0].SubGroups[0].SubGroups[1].Header, Is.EqualTo("SubGroup1-2"));
+                Assert.That(launchers[0].SubGroups[0].SubGroups[1].Launchers,
+                    Is.EquivalentTo(new[] {thirdNode.SubGroups[1].SubGroups[0].Launchers[0]}));
+
+                Assert.That(launchers[0].SubGroups[1].Header, Is.EqualTo("SubGroup2"));
+                Assert.That(launchers[0].SubGroups[1].Launchers, Is.Null.Or.Empty);
+
+                Assert.That(launchers[0].SubGroups[2].Header, Is.EqualTo("SubGroup3"));
+                Assert.That(launchers[0].SubGroups[1].Launchers, Is.Null);
+
+                Assert.That(launchers[1].Header, Is.EqualTo("Repo2"));
+                Assert.That(launchers[1].Launchers,
+                    Is.EquivalentTo(new[] {secondNode.Launchers[0], secondNode.Launchers[1]}));
+                Assert.That(launchers[1].SubGroups, Has.Count.EqualTo(1));
+                Assert.That(launchers[1].SubGroups[0].Header, Is.EqualTo("SubGroup1"));
+                Assert.That(launchers[1].SubGroups[0].Launchers,
+                    Is.EquivalentTo(new[] {secondNode.SubGroups[0].Launchers[0]}));
+                Assert.That(launchers[1].SubGroups[0].SubGroups, Has.Count.EqualTo(1));
+                Assert.That(launchers[1].SubGroups[0].SubGroups[0].Header, Is.EqualTo("SubGroup1-1"));
+                Assert.That(launchers[1].SubGroups[0].SubGroups[0].Launchers,
+                    Is.EquivalentTo(new[] {secondNode.SubGroups[0].SubGroups[0].Launchers[0]}));
+            }
         }
     }
 }
