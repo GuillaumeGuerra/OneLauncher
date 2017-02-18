@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration Test="rorororo">
+  <RootDirectories>
+    <RootDirectory Header="MASTER" Path="..\..\..\Sample\Master"/>
+    <RootDirectory Header="PROD" Path="..\..\..\Sample\Prod"/>
+  </RootDirectories>
+  <GenericTemplate>
+    <SubGroups>
+      <Group Header="Solutions">
+        <Launchers>
+          <Launcher Header="Jungle.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Rebels/Dagobah/jungle.sln" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+      <Group Header="Launchers">
+        <Launchers>
+          <Launcher Header="Launch Open">
+            <Commands>
+              <Execute Command="[ROOT]/DS.cmd" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+    </SubGroups>
+  </GenericTemplate>
+</Configuration>

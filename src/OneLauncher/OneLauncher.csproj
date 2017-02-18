@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Framework\CloneHelper.cs" />
     <Compile Include="Framework\DependencyInjectionExtensions.cs" />
     <Compile Include="Services\CommandLauncher\BaseCommandLauncher.cs" />
     <Compile Include="Services\CommandLauncher\ExecuteCommandLauncher.cs" />
@@ -165,7 +167,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configuration\Launchers.xml">
+    <None Include="Configuration\Launchers_master-prod.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -193,7 +195,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configuration\Launchers2.xml">
+    <None Include="Configuration\Launchers_preview-uat.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configuration\Launchers_master-prod2.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
