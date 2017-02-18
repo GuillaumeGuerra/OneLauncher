@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration Test="rorororo">
+  <RootDirectories>
+    <RootDirectory Header="MASTER" Path="..\..\..\Sample\Master"/>
+    <RootDirectory Header="PROD" Path="..\..\..\Sample\Prod"/>
+  </RootDirectories>
+  <GenericTemplate>
+    <SubGroups>
+      <Group Header="Solutions">
+        <Launchers>
+          <Launcher Header="Base.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Rebels/Yavin/base.sln" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="Padawan.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Jedis/padawan.sln" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="TestSolution.sln">
+            <Commands>
+              <Execute Command="[ROOT]/TestSolution/TestSolution.sln" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+      <Group Header="Launchers">
+        <Launchers>
+          <Launcher Header="Launch DS">
+            <Commands>
+              <File SourceFilePath="[ROOT]/test.dll.config" TargetFilePath="../debug/test.dll.config" />
+              <XPath FilePath="test.dll.config" XPath="configuration/appSettings/add[@key='sizeOfMyAss']/@value" Value="not that big actually" />
+              <Execute Command="[ROOT]/DS.cmd" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+    </SubGroups>
+  </GenericTemplate>
+</Configuration>

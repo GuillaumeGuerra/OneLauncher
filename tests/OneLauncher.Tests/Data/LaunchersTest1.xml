@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration Test="rorororo">
+  <RootDirectories>
+    <RootDirectory Header="Jar-Jar" Path="D:/Jar-Jar You Stink"/>
+    <RootDirectory Header="Kirk" Path="E:/Star Trek/Kirk_you_suck"/>
+  </RootDirectories>
+  <GenericTemplate>
+    <SubGroups>
+      <Group Header="Solutions">
+        <SubGroups>
+          <!--No sub group here-->
+        </SubGroups>
+        <Launchers>
+          <Launcher Header="Base.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Rebels/Yavin/base.sln" />
+              <XPath FilePath="[ROOT]/assembly.dll.config" XPath="configuration/appSettings[@name='who's the best jedi ?']" Value="yoda" />
+              <File SourceFilePath="[ROOT]/somewhere/assembly.dll.config" TargetFilePath="[ROOT]/somewhere else/assembly.dll.config" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="Padawan.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Jedis/padawan.sln" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+      <Group Header="Launchers">
+        <SubGroups>
+          <Group Header="Big ass launchers">
+            <Launchers>
+              <Launcher Header="Jar-Jar you stink">
+                <Commands>
+                  <Execute Command="Kick Jar-Jar.ps1" />
+                </Commands>
+              </Launcher>
+            </Launchers>
+          </Group>
+        </SubGroups>
+        <Launchers>
+          <Launcher Header="Rebellion">
+            <Commands>
+              <Execute Command="[ROOT]/Rebels/Yavin/bin/debug/Start rebellion.cmd" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+    </SubGroups>
+    <Launchers>
+      <Launcher Header="Empire">
+        <Commands>
+          <Execute Command="[ROOT]/Rebels/DeathStar/Fire.cmd" />
+        </Commands>
+      </Launcher>
+    </Launchers>
+  </GenericTemplate>
+</Configuration>
