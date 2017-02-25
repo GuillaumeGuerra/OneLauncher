@@ -5,14 +5,14 @@ using OneLauncher.ViewModels;
 namespace OneLauncher.Tests.ViewModels
 {
     [TestFixture]
-    public class OmniLauncherViewModelTests
+    public class OneLauncherViewModelTests
     {
         [Test]
         [Apartment(ApartmentState.STA)]
         [Ignore("Work in progress")]
         public void ShouldInitializeLaunchersWhenLoaded()
         {
-            var vm = new OmniLauncherViewModel();
+            var vm = new OneLauncherViewModel();
 
             // As long as the load is not completed, the VM should maintain the view closed
             Assert.That(vm.IsOpened, Is.False);

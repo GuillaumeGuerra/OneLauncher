@@ -4,9 +4,8 @@ using System.Threading;
 using Infragistics.Controls.Menus;
 using NUnit.Framework;
 using OneLauncher.Services.ConfigurationLoader;
-using OneLauncher.Services.RadialMenuItemBuilder;
 
-namespace OneLauncher.Tests
+namespace OneLauncher.Tests.Services.RadialMenuItemBuilder
 {
     [TestFixture]
     public class RadialMenuItemBuilderTests
@@ -15,7 +14,7 @@ namespace OneLauncher.Tests
         [TestCase(false)]
         public void ShouldCreateEmptyListOfItemsWhenBoundToEmptyListOfLaunchers(bool nullLaunchers)
         {
-            var actual = new RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>());
+            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>());
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual.Count(), Is.EqualTo(0));
         }
@@ -63,7 +62,7 @@ namespace OneLauncher.Tests
                     }
                 }
             };
-            var actual = new RadialMenuItemBuilder().BuildMenuItems(launchers).ToList();
+            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(launchers).ToList();
 
             Assert.That(actual, Has.Count.EqualTo(2));
 

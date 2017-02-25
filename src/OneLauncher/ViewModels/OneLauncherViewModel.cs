@@ -11,12 +11,12 @@ using OneLauncher.Services.RadialMenuItemBuilder;
 
 namespace OneLauncher.ViewModels
 {
-    public class OmniLauncherViewModel : DependencyObject
+    public class OneLauncherViewModel : DependencyObject
     {
         public static readonly DependencyProperty LaunchersProperty =
-            DependencyProperty.Register("Launchers", typeof(ObservableCollection<RadialMenuItem>), typeof(OmniLauncherViewModel), new PropertyMetadata(new ObservableCollection<RadialMenuItem>()));
+            DependencyProperty.Register("Launchers", typeof(ObservableCollection<RadialMenuItem>), typeof(OneLauncherViewModel), new PropertyMetadata(new ObservableCollection<RadialMenuItem>()));
         public static readonly DependencyProperty IsOpenedProperty =
-            DependencyProperty.Register("IsOpened", typeof(bool), typeof(OmniLauncherViewModel), new PropertyMetadata(false));
+            DependencyProperty.Register("IsOpened", typeof(bool), typeof(OneLauncherViewModel), new PropertyMetadata(false));
 
         public ObservableCollection<RadialMenuItem> Launchers
         {
@@ -44,7 +44,7 @@ namespace OneLauncher.ViewModels
             get { return new RelayCommand(Loaded); }
         }
 
-        public OmniLauncherViewModel()
+        public OneLauncherViewModel()
         {
             App.Container.InjectProperties(this);
         }

@@ -3,11 +3,11 @@
 namespace OneLauncher.Views
 {
     /// <summary>
-    /// Interaction logic for OmniLauncherView.xaml
+    /// Interaction logic for OneLauncherView.xaml
     /// </summary>
-    public partial class OmniLauncherView : Window
+    public partial class OneLauncherView : Window
     {
-        public OmniLauncherView()
+        public OneLauncherView()
         {
             InitializeComponent();
         }

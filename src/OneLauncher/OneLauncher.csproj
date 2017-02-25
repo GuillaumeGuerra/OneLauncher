@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Extras.CommonServiceLocator, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Autofac.Extras.CommonServiceLocator.4.0.0\lib\portable40-net40+sl5+win8+wp8+wpa81\Autofac.Extras.CommonServiceLocator.dll</HintPath>
@@ -105,7 +105,12 @@
     <Compile Include="Services\ConfigurationLoader\ILauncherConfigurationProcessor.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\IXmlLauncherConfigurationReader.cs" />
     <Compile Include="Services\ConfigurationLoader\FileCopierCommand.cs" />
+    <Compile Include="Services\Context\ApplicationSettings.cs" />
+    <Compile Include="Services\Context\IApplicationSettingsService.cs" />
     <Compile Include="Services\Context\IOneLauncherContext.cs" />
+    <Compile Include="Services\Context\IUserSettingsService.cs" />
+    <Compile Include="Services\Context\OneLauncherContext.cs" />
+    <Compile Include="Services\Context\Repository.cs" />
     <Compile Include="Services\LauncherService\ILauncherService.cs" />
     <Compile Include="Services\LauncherService\LauncherService.cs" />
     <Compile Include="Services\CommandLauncher\ExecuteCommand.cs" />
@@ -128,16 +133,14 @@
     <Compile Include="Services\ConfigurationLoader\Xml\XmlXPathReplacerCommand.cs" />
     <Compile Include="Services\Context\UserSettings.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="ViewModels\OmniLauncherViewModel.cs" />
+    <Compile Include="ViewModels\OneLauncherViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="Views\OmniLauncherView.xaml.cs">
-      <DependentUpon>OmniLauncherView.xaml</DependentUpon>
+    <Compile Include="Views\OneLauncherView.xaml.cs">
+      <DependentUpon>OneLauncherView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +195,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\OmniLauncherView.xaml">
+    <Page Include="Views\OneLauncherView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

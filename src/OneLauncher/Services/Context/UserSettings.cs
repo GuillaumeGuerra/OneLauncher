@@ -35,30 +35,4 @@ namespace OneLauncher.Services.Context
             };
         }
     }
-
-    public class Repository
-    {
-        public string Path { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    public interface IUserSettingsService
-    {
-        UserSettings GetUserSettings();
-
-        void SaveUserSettings(UserSettings settings);
-    }
-
-    public interface IApplicationSettingsService
-    {
-        ApplicationSettings GetApplicationSettings();
-    }
-
-    public class ApplicationSettings
-    {
-        public string UserSettingsDirectory { get; set; }
-
-        public string UserSettingsFileName { get; set; }
-    }
 }

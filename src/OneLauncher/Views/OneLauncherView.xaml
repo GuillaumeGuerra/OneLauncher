@@ -5,9 +5,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ig="http://schemas.infragistics.com/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    x:Class="OneLauncher.Views.OmniLauncherView"
+    x:Class="OneLauncher.Views.OneLauncherView"
     mc:Ignorable="d"
-    Title="OmniLauncherView" Height="300" Width="300"
+    Title="OneLauncherView" Height="300" Width="300"
     AllowsTransparency="True"
     WindowStyle="None"
     Background="Transparent"
@@ -15,7 +15,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OmniLauncher;component/Assets/IG.xamRadialMenu.xaml" />
+                <ResourceDictionary Source="/OneLauncher;component/Assets/IG.xamRadialMenu.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

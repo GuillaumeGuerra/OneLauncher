@@ -4,6 +4,6 @@ namespace OneLauncher.ViewModels
 {
     public class ViewModelLocator
     {
-        public OmniLauncherViewModel MainViewModel => ServiceLocator.Current.GetInstance<OmniLauncherViewModel>();
+        public OneLauncherViewModel MainViewModel => ServiceLocator.Current.GetInstance<OneLauncherViewModel>();
     }
 }

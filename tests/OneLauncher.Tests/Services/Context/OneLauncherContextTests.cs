@@ -60,28 +60,35 @@ namespace OneLauncher.Tests.Services.Context
         [Test]
         public void TestThatUserSettingsAreLoadedFromTheJsonFileWhenItExists()
         {
-            var context = new OneLauncherContext();
+            using (var directory = new TemporaryDirectory())
+            {
+                // First, we'll copy a settings file
+                Directory.CreateDirectory($"{directory.Location}/OneLauncher");
+                File.Copy("Services/Context/Data/UserSettings.json", $"{directory.Location}/OneLauncher/UserSettings.json");
 
-            // There was a settings file, it should have been loaded, and replace the default values
-            Assert.That(context.UserSettings.Repositories, Has.Count.EqualTo(1));
+                var context = GetContext(directory);
 
-            var repos = context.UserSettings.Repositories["XONE"];
-            Assert.That(repos, Has.Count.EqualTo(2));
+                // There was a settings file, it should have been loaded, and replace the default values
+                Assert.That(context.UserSettings.Repositories, Has.Count.EqualTo(1));
 
-            Assert.That(repos[0].Name, Is.EqualTo("First"));
-            Assert.That(repos[0].Path, Is.EqualTo("path1"));
+                var repos = context.UserSettings.Repositories["XONE"];
+                Assert.That(repos, Has.Count.EqualTo(2));
 
-            Assert.That(repos[1].Name, Is.EqualTo("Second"));
-            Assert.That(repos[1].Path, Is.EqualTo("path2"));
+                Assert.That(repos[0].Name, Is.EqualTo("First"));
+                Assert.That(repos[0].Path, Is.EqualTo("path1"));
 
-            Assert.That(context.UserSettings.SettingsVersion, Is.EqualTo("42.0"));
+                Assert.That(repos[1].Name, Is.EqualTo("Second"));
+                Assert.That(repos[1].Path, Is.EqualTo("path2"));
 
-            // By resaving the settings, we'll test that we can overwrite settings when they are already available
+                Assert.That(context.UserSettings.SettingsVersion, Is.EqualTo("42.0"));
 
-            repos.Add(new Repository() { Name = "Third", Path = "path3" });
-            context.SaveUserSettings();
+                // By resaving the settings, we'll test that we can overwrite settings when they are already available
 
-            Assert.That(new OneLauncherContext().UserSettings.Repositories["XONE"], Has.Count.EqualTo(3));
+                repos.Add(new Repository() { Name = "Third", Path = "path3" });
+                context.SaveUserSettings();
+
+                Assert.That(GetContext(directory).UserSettings.Repositories["XONE"], Has.Count.EqualTo(3));
+            }
         }
 
         private OneLauncherContext GetContext(TemporaryDirectory directory)
