@@ -14,13 +14,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
         {
             var service = new XmlLauncherConfigurationReader();
             var actual = service.LoadFile("Data/LaunchersTest1.xml");
-            Assert.That(actual.RootDirectories, Is.Not.Null);
-            Assert.That(actual.RootDirectories.Count, Is.EqualTo(2));
-
-            Assert.That(actual.RootDirectories[0].Path, Is.EqualTo("D:/Jar-Jar You Stink"));
-            Assert.That(actual.RootDirectories[0].Header, Is.EqualTo("Jar-Jar"));
-            Assert.That(actual.RootDirectories[1].Path, Is.EqualTo("E:/Star Trek/Kirk_you_suck"));
-            Assert.That(actual.RootDirectories[1].Header, Is.EqualTo("Kirk"));
+            Assert.That(actual.RepoType, Is.EqualTo("Kirk you stink"));
 
             Assert.That(actual.GenericTemplate, Is.Not.Null);
             Assert.That(actual.GenericTemplate.Header, Is.Null); // No header for the template

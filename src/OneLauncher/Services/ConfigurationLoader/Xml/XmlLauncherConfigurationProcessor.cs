@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using System.IO;
+using OneLauncher.Services.Context;
+using OneLauncher.Services.MessageService;
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
 {
     public class XmlLauncherConfigurationProcessor : ILauncherConfigurationProcessor
     {
         public IXmlLauncherConfigurationReader ConfigurationReader { get; set; }
+
+        public IOneLauncherContext Context { get; set; }
+
+        public IMessageService MessageService { get; set; }
 
         public bool CanProcess(string path)
         {
@@ -14,13 +20,22 @@ namespace OneLauncher.Services.ConfigurationLoader.Xml
 
         public IEnumerable<LaunchersNode> Load(string path)
         {
-            foreach (var root in ConfigurationReader.LoadFile(path).RootDirectories)
+            var configuration = ConfigurationReader.LoadFile(path);
+
+            List<Repository> repos;
+            if (!Context.UserSettings.Repositories.TryGetValue(configuration.RepoType, out repos))
             {
-                yield return ProcessNode(ConfigurationReader.LoadFile(path).GenericTemplate, root, root.Header);
+                MessageService.ShowErrorMessage($"Unable to find repo type {configuration.RepoType} in config file {Context.ApplicationSettings.UserSettingsDirectory}/{Context.ApplicationSettings.UserSettingsFileName}");
+                yield break;
+            }
+
+            foreach (var root in Context.UserSettings.Repositories[configuration.RepoType])
+            {
+                yield return ProcessNode(configuration.GenericTemplate, root, root.Name);
             }
         }
 
-        private LaunchersNode ProcessNode(XmlLauncherNode node, XmlLauncherRootDirectory root, string header = null)
+        private LaunchersNode ProcessNode(XmlLauncherNode node, Repository root, string header = null)
         {
             var result = new LaunchersNode() { Header = header ?? node.Header };
 
@@ -43,7 +58,7 @@ namespace OneLauncher.Services.ConfigurationLoader.Xml
             return result;
         }
 
-        public LauncherLink ProcessLauncherLink(XmlLauncherRootDirectory root, XmlLauncherLink xmlLauncher)
+        public LauncherLink ProcessLauncherLink(Repository root, XmlLauncherLink xmlLauncher)
         {
             var resolvedRootPath = root.Path;
             if (root.Path.EndsWith("/") || root.Path.EndsWith(@"\"))

@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInitialize.cs" />
+    <Compile Include="Framework\TestContext.cs" />
     <Compile Include="Services\CommandLauncher\BaseCommandLauncherTests.cs" />
     <Compile Include="Services\CommandLauncher\CommonCommandLauncherTests.cs" />
     <Compile Include="Services\CommandLauncher\ExecuteCommandLauncherTests.cs" />

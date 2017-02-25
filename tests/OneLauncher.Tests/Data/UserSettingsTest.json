@@ -1,6 +1,15 @@
 {
   "SettingsVersion": "42.0",
   "Repositories": {
-    "XONE": [ "path1", "path2" ]
+    "XONE": [
+      {
+        "name": "First",
+        "path": "path1"
+      },
+      {
+        "name": "Second",
+        "path": "path2"
+      }
+    ]
   }
 }

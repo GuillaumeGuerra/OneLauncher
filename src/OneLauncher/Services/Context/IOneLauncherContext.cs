@@ -34,16 +34,27 @@ namespace OneLauncher.Services.Context
         public void SaveUserSettings()
         {
             var json = JsonConvert.SerializeObject(UserSettings, Formatting.Indented);
-            File.WriteAllText(Path.Combine(ApplicationSettings.UserSettingsDirectory, ApplicationSettings.UserSettingsFileName), json);
+            File.WriteAllText(GetUserSettingsFilePath(), json);
         }
 
         private UserSettings LoadUserSettings()
         {
             var path = Path.Combine(ApplicationSettings.UserSettingsDirectory, ApplicationSettings.UserSettingsFileName);
+
             if (File.Exists(path))
                 return JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(path));
 
-            return new UserSettings();
+            // In case the file doesn't exist, we'll create it, with a default value
+            var json = JsonConvert.SerializeObject(UserSettings.GetDefaultSettings(), Formatting.Indented);
+            File.WriteAllText(GetUserSettingsFilePath(), json);
+
+
+            return UserSettings.GetDefaultSettings();
+        }
+
+        private string GetUserSettingsFilePath()
+        {
+            return Path.Combine(ApplicationSettings.UserSettingsDirectory, "OneLauncher", ApplicationSettings.UserSettingsFileName);
         }
     }
 }

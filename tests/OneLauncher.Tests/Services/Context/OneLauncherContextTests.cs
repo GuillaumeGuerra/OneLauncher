@@ -24,27 +24,36 @@ namespace OneLauncher.Tests.Services.Context
         }
 
         [Test]
-        public void TestThatANewUserSettingFileIsCreatedWhenItIsSavedForTheFirstTime()
+        public void TestThatANewUserSettingFileIsCreatedWhenTheContextIsLoadedForTheFirstTime()
         {
             using (var directory = new TemporaryDirectory())
             {
+                var userSettingsPath = $"{directory.Location}/OneLauncher/UserSettings.json";
+
+                // So far, obviously, the user settings file does not exist yet
+                Assert.That(File.Exists(userSettingsPath), Is.False);
+
                 var context = GetContext(directory);
 
-                // Even though there is no user settings yet, default one will be given in the context
+                // Even though there was no user settings yet, default one will be given in the context
                 Assert.That(context.UserSettings, Is.Not.Null);
-                Assert.That(context.UserSettings.Repositories, Has.Count.EqualTo(0));
+                Assert.That(context.UserSettings.Repositories, Has.Count.GreaterThan(0));
+
+                // And it should have been created in the directory
+                Assert.That(File.Exists(userSettingsPath), Is.True);
+
+                var defaultContent = File.ReadAllText(userSettingsPath);
 
                 // Let's edit them
-                context.UserSettings.Repositories.Add("MyAss", new List<string>() { "Is", "Not", "That", "Big" });
+                context.UserSettings.Repositories.Add("MyAss", new List<Repository>() { new Repository() { Name = "IsNotThatBig" } });
 
-                // Now we save them : a file should have been created
+                // Now we save them : the file should have been updated
                 context.SaveUserSettings();
-                
-                Assert.That(File.Exists(Path.Combine(directory.Location, "UserSettings.json")), Is.True);
-                Assert.That(File.ReadAllText(Path.Combine(directory.Location, "UserSettings.json")), Has.Length.GreaterThan(5));
+
+                Assert.That(File.ReadAllText(userSettingsPath), Is.Not.EqualTo(defaultContent));
 
                 // This time, when the context is loaded, we should get the new version of the settings
-                Assert.That(GetContext(directory).UserSettings.Repositories, Has.Count.EqualTo(1));
+                Assert.That(GetContext(directory).UserSettings.Repositories, Has.Count.EqualTo(2));
             }
         }
 
@@ -55,12 +64,21 @@ namespace OneLauncher.Tests.Services.Context
 
             // There was a settings file, it should have been loaded, and replace the default values
             Assert.That(context.UserSettings.Repositories, Has.Count.EqualTo(1));
-            Assert.That(context.UserSettings.Repositories["XONE"], Is.EquivalentTo(new[] { "path1", "path2" }));
+
+            var repos = context.UserSettings.Repositories["XONE"];
+            Assert.That(repos, Has.Count.EqualTo(2));
+
+            Assert.That(repos[0].Name, Is.EqualTo("First"));
+            Assert.That(repos[0].Path, Is.EqualTo("path1"));
+
+            Assert.That(repos[1].Name, Is.EqualTo("Second"));
+            Assert.That(repos[1].Path, Is.EqualTo("path2"));
+
             Assert.That(context.UserSettings.SettingsVersion, Is.EqualTo("42.0"));
 
             // By resaving the settings, we'll test that we can overwrite settings when they are already available
 
-            context.UserSettings.Repositories["XONE"].Add("path3");
+            repos.Add(new Repository() { Name = "Third", Path = "path3" });
             context.SaveUserSettings();
 
             Assert.That(new OneLauncherContext().UserSettings.Repositories["XONE"], Has.Count.EqualTo(3));

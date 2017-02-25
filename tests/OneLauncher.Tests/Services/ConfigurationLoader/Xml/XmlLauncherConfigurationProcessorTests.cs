@@ -1,23 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
 using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.ConfigurationLoader.Xml;
+using OneLauncher.Services.Context;
+using OneLauncher.Services.MessageService;
+using OneLauncher.Tests.Framework;
 
 namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
 {
     [TestFixture]
     public class XmlLauncherConfigurationProcessorTests
     {
+        // TODO : Add UT for unknown repo type
+
         [Test]
         public void ShouldReplaceRootTokenWithRootDirectory()
         {
             var reader = new Mock<IXmlLauncherConfigurationReader>(MockBehavior.Strict);
             reader.Setup(mock => mock.LoadFile("")).Returns(GetTemplateConfiguration()).Verifiable();
 
-            var processor = new XmlLauncherConfigurationProcessor() { ConfigurationReader = reader.Object };
+            var settings = new UserSettings()
+            {
+                Repositories = new Dictionary<string, List<Repository>>()
+                {
+                    {
+                        "XONE", new List<Repository>()
+                        {
+                            new Repository() {Name = "Jar-Jar", Path = "D:/Jar-Jar You Stink"},
+                            new Repository() {Name = "Kirk", Path = "E:/Star Trek/Kirk_you_suck"}
+                        }
+                    }
+                }
+            };
+
+            var processor = new XmlLauncherConfigurationProcessor() { ConfigurationReader = reader.Object, Context = new OneLaunchContextMock() { UserSettings = settings } };
             var actual = processor.Load("").ToList();
 
             Assert.That(actual, Is.Not.Null);
@@ -38,7 +59,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
         public void ShouldProcessSlashAndBackSlashWhenReplacingRootToken(string path, string command, string expected)
         {
             var processor = new XmlLauncherConfigurationProcessor();
-            var actual = processor.ProcessLauncherLink(new XmlLauncherRootDirectory()
+            var actual = processor.ProcessLauncherLink(new Repository()
             {
                 Path = path
             },
@@ -68,6 +89,38 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
         {
             Assert.That(new XmlLauncherConfigurationProcessor().CanProcess(path), Is.EqualTo(shouldProcess));
         }
+
+        [Test]
+        public void ShouldShowErrorWhenTheTemplateRepoCannotBeFoundInTheUserSettings()
+        {
+            var message = new Mock<IMessageService>(MockBehavior.Strict);
+            message
+                .Setup(mock => mock.ShowErrorMessage("Unable to find repo type UNKNOWN in config file MyDocs/OneLauncher/UserSettings.json"))
+                .Verifiable();
+
+            var loader = new Mock<IXmlLauncherConfigurationReader>(MockBehavior.Strict);
+            loader
+                .Setup(mock => mock.LoadFile(It.IsAny<string>())).Returns(new XmlLauncherConfiguration() { RepoType = "UNKNOWN", GenericTemplate = new XmlLauncherNode() })
+                .Verifiable();
+
+            var context = new OneLaunchContextMock()
+            {
+                UserSettings = new UserSettings()
+                {
+                    Repositories = new Dictionary<string, List<Repository>>() // No repo, so "UNKNOWN" repo type won't be found
+                },
+                ApplicationSettings = new ApplicationSettings()
+                {
+                    UserSettingsDirectory = "MyDocs/OneLauncher",
+                    UserSettingsFileName = "UserSettings.json"
+                }
+            };
+            var processor = new XmlLauncherConfigurationProcessor() { MessageService = message.Object, ConfigurationReader = loader.Object, Context = context };
+            Assert.That(processor.Load("").ToList(), Has.Count.EqualTo(0));
+
+            message.VerifyAll();
+        }
+
 
         private void AssertNode(LaunchersNode rootGroup, string rootDirectory, string expectedHeader)
         {
@@ -112,19 +165,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
         {
             var configuration = new XmlLauncherConfiguration
             {
-                RootDirectories = new List<XmlLauncherRootDirectory>()
-                {
-                    new XmlLauncherRootDirectory()
-                    {
-                        Header = "Jar-Jar",
-                        Path = "D:/Jar-Jar You Stink"
-                    },
-                    new XmlLauncherRootDirectory()
-                    {
-                        Header = "Kirk",
-                        Path = "E:/Star Trek/Kirk_you_suck"
-                    }
-                },
+                RepoType = "XONE",
                 GenericTemplate = new XmlLauncherNode()
                 {
                     SubGroups = new List<XmlLauncherNode>()

@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Configuration Test="rorororo">
-  <RootDirectories>
-    <RootDirectory Header="Jar-Jar" Path="D:/Jar-Jar You Stink"/>
-    <RootDirectory Header="Kirk" Path="E:/Star Trek/Kirk_you_suck"/>
-  </RootDirectories>
+<Configuration RepoType="Kirk you stink">
   <GenericTemplate>
     <SubGroups>
       <Group Header="Solutions">

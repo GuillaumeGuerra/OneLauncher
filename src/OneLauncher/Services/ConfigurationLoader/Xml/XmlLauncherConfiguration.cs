@@ -6,9 +6,8 @@ namespace OneLauncher.Services.ConfigurationLoader.Xml
     [XmlRoot("Configuration")]
     public class XmlLauncherConfiguration
     {
-        [XmlArray("RootDirectories")]
-        [XmlArrayItem("RootDirectory")]
-        public List<XmlLauncherRootDirectory> RootDirectories { get; set; }
+        [XmlAttribute("RepoType")]
+        public string RepoType { get; set; }
         
         public XmlLauncherNode GenericTemplate { get; set; }
     }

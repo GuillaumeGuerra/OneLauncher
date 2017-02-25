@@ -10,5 +10,10 @@ namespace OneLauncher.Services.MessageService
             MessageBox.Show(exception.Message, "Unhandled exception", MessageBoxButton.OK,
                 MessageBoxImage.Error);
         }
+
+        public void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

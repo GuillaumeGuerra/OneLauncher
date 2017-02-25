@@ -11,15 +11,36 @@ namespace OneLauncher.Services.Context
         public string SettingsVersion { get; set; }
 
         [JsonProperty]
-        public Dictionary<string, List<string>> Repositories { get; set; }
+        public Dictionary<string, List<Repository>> Repositories { get; set; }
 
         public UserSettings()
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             SettingsVersion = $"{version.Major}.{version.Minor}";
-            Repositories = new Dictionary<string, List<string>>();
+            Repositories = new Dictionary<string, List<Repository>>();
         }
 
+        public static UserSettings GetDefaultSettings()
+        {
+            return new UserSettings()
+            {
+                Repositories = new Dictionary<string, List<Repository>>()
+                {
+                    {"XONE",new List<Repository>()
+                    {
+                        new Repository(){Name = "MASTER",Path = @"D:/DEV/XOneMaster"},
+                        new Repository(){Name = "PROD",Path = @"D:/DEV/XOneProd"}
+                    } }
+                }
+            };
+        }
+    }
+
+    public class Repository
+    {
+        public string Path { get; set; }
+
+        public string Name { get; set; }
     }
 
     public interface IUserSettingsService
