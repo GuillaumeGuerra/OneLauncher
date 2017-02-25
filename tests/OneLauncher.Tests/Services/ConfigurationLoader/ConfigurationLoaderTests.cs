@@ -30,13 +30,13 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                 xmlLoader.Setup(mock => mock.CanProcess(It.IsAny<string>()))
                     .Returns<string>(s => s.EndsWith(".xml"))
                     .Verifiable();
-                xmlLoader.Setup(mock => mock.Load($"{directory.Location}\\file1.xml")).Returns(firstNode).Verifiable();
+                xmlLoader.Setup(mock => mock.Load($"{directory.Location}\\file1.xml")).Returns(new[] { firstNode }).Verifiable();
 
                 var jsonLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
                 jsonLoader.Setup(mock => mock.CanProcess(It.IsAny<string>()))
                     .Returns<string>(s => s.EndsWith(".json"))
                     .Verifiable();
-                jsonLoader.Setup(mock => mock.Load($"{directory.Location}\\file2.json")).Returns(secondNode).Verifiable();
+                jsonLoader.Setup(mock => mock.Load($"{directory.Location}\\file2.json")).Returns(new[] { secondNode }).Verifiable();
 
                 var loader = new ConfigLoader() { AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object } };
                 var launchers = loader.LoadConfiguration(directory.Location).ToList();
@@ -139,18 +139,12 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
             using (var directory = new TemporaryDirectory())
             {
                 File.WriteAllText($"{directory.Location}\\1.1", "");
-                File.WriteAllText($"{directory.Location}\\2.2", "");
-                File.WriteAllText($"{directory.Location}\\3.3", "");
-                File.WriteAllText($"{directory.Location}\\4.4", "");
 
-                var loader1 = CreateMockProcessor(firstNode, ".1");
-                var loader2 = CreateMockProcessor(secondNode, ".2");
-                var loader3 = CreateMockProcessor(thirdNode, ".3");
-                var loader4 = CreateMockProcessor(fourthNode, ".4");
+                var loaderMock = CreateMockProcessor(firstNode, secondNode, thirdNode, fourthNode);
 
                 var loader = new ConfigLoader()
                 {
-                    AllConfigurationProcessors = new[] { loader1.Object, loader2.Object, loader3.Object, loader4.Object }
+                    AllConfigurationProcessors = new[] { loaderMock.Object }
                 };
                 var launchers = loader.LoadConfiguration(directory.Location).ToList();
 
@@ -192,13 +186,13 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
             }
         }
 
-        private Mock<ILauncherConfigurationProcessor> CreateMockProcessor(LaunchersNode returnedNode, string filePattern)
+        private Mock<ILauncherConfigurationProcessor> CreateMockProcessor(params LaunchersNode[] launchers)
         {
             var loader1 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
             loader1.Setup(mock => mock.CanProcess(It.IsAny<string>()))
-                .Returns<string>(s => s.EndsWith(filePattern))
+                .Returns(true)
                 .Verifiable();
-            loader1.Setup(mock => mock.Load(It.IsAny<string>())).Returns(returnedNode).Verifiable();
+            loader1.Setup(mock => mock.Load(It.IsAny<string>())).Returns(launchers).Verifiable();
             return loader1;
         }
     }

@@ -6,6 +6,6 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
 {
     public interface IRadialMenuItemBuilder
     {
-        IEnumerable<RadialMenuItem> BuildMenuItems(LaunchersNode launchers);
+        IEnumerable<RadialMenuItem> BuildMenuItems(IEnumerable<LaunchersNode> launchers);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using OneLauncher.Services.CommandLauncher;
@@ -17,13 +18,13 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
             reader.Setup(mock => mock.LoadFile("")).Returns(GetTemplateConfiguration()).Verifiable();
 
             var processor = new XmlLauncherConfigurationProcessor() { ConfigurationReader = reader.Object };
-            var actual = processor.Load("");
+            var actual = processor.Load("").ToList();
 
-            Assert.That(actual.SubGroups, Is.Not.Null);
-            Assert.That(actual.SubGroups.Count, Is.EqualTo(2));
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual, Has.Count.EqualTo(2));
 
-            AssertNode(actual.SubGroups[0], "D:/Jar-Jar You Stink", "Jar-Jar");
-            AssertNode(actual.SubGroups[1], "E:/Star Trek/Kirk_you_suck", "Kirk");
+            AssertNode(actual[0], "D:/Jar-Jar You Stink", "Jar-Jar");
+            AssertNode(actual[1], "E:/Star Trek/Kirk_you_suck", "Kirk");
         }
 
         [TestCase("root/path/with/slashes", "[ROOT]/end/of/path", "root/path/with/slashes/end/of/path",

@@ -98,6 +98,7 @@
     <Compile Include="Framework\ContainerOverriderTests.cs" />
     <Compile Include="Framework\TemporaryDirectory.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationProcessorTests.cs" />
+    <Compile Include="Services\Context\OneLauncherContextTests.cs" />
     <Compile Include="Services\LauncherService\LauncherServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -120,10 +121,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Data\OmniLauncher.Tests.dll.expected.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\OmniLauncher.Tests.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\UserSettingsTest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -137,14 +141,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\LaunchersTest1.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Data\LaunchersTest2.xml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>

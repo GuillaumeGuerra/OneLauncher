@@ -15,7 +15,7 @@ namespace OneLauncher.Tests
         [TestCase(false)]
         public void ShouldCreateEmptyListOfItemsWhenBoundToEmptyListOfLaunchers(bool nullLaunchers)
         {
-            var actual = new RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new LaunchersNode());
+            var actual = new RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>());
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual.Count(), Is.EqualTo(0));
         }
@@ -24,44 +24,41 @@ namespace OneLauncher.Tests
         [Apartment(ApartmentState.STA)]
         public void ShouldBuildRecursiveMenuItemsWhenParsingLaunchers()
         {
-            var launchers = new LaunchersNode()
+            var launchers = new List<LaunchersNode>()
             {
-                SubGroups = new List<LaunchersNode>()
+                new LaunchersNode()
                 {
-                    new LaunchersNode()
+                    Header = "Item1",
+                    Launchers = new List<LauncherLink>()
                     {
-                        Header = "Item1",
-                        Launchers = new List<LauncherLink>()
+                        new LauncherLink()
                         {
-                            new LauncherLink()
-                            {
-                                Header = "Button1"
-                            }
-                        },
-                        SubGroups = new List<LaunchersNode>()
+                            Header = "Button1"
+                        }
+                    },
+                    SubGroups = new List<LaunchersNode>()
+                    {
+                        new LaunchersNode()
                         {
-                            new LaunchersNode()
+                            Header = "Item1-1",
+                            Launchers = new List<LauncherLink>()
                             {
-                                Header = "Item1-1",
-                                Launchers = new List<LauncherLink>()
+                                new LauncherLink()
                                 {
-                                    new LauncherLink()
-                                    {
-                                        Header = "Button1-1"
-                                    }
+                                    Header = "Button1-1"
                                 }
                             }
                         }
-                    },
-                    new LaunchersNode()
+                    }
+                },
+                new LaunchersNode()
+                {
+                    Header = "Item2",
+                    Launchers = new List<LauncherLink>()
                     {
-                        Header = "Item2",
-                        Launchers = new List<LauncherLink>()
+                        new LauncherLink()
                         {
-                            new LauncherLink()
-                            {
-                                Header = "Button2"
-                            }
+                            Header = "Button2"
                         }
                     }
                 }

@@ -12,16 +12,12 @@ namespace OneLauncher.Services.ConfigurationLoader.Xml
             return Path.GetExtension(path) == ".xml";
         }
 
-        public LaunchersNode Load(string path)
+        public IEnumerable<LaunchersNode> Load(string path)
         {
-            var launchers = new LaunchersNode();
-
             foreach (var root in ConfigurationReader.LoadFile(path).RootDirectories)
             {
-                launchers.SubGroups.Add(ProcessNode(ConfigurationReader.LoadFile(path).GenericTemplate, root, root.Header));
+                yield return ProcessNode(ConfigurationReader.LoadFile(path).GenericTemplate, root, root.Header);
             }
-
-            return launchers;
         }
 
         private LaunchersNode ProcessNode(XmlLauncherNode node, XmlLauncherRootDirectory root, string header = null)

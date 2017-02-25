@@ -12,14 +12,14 @@ namespace OneLauncher.Services.ConfigurationLoader
 
         public IEnumerable<LaunchersNode> LoadConfiguration(string path)
         {
-            var launchers = new List<LaunchersNode>();
+            var launchers = Enumerable.Empty<LaunchersNode>();
 
             foreach (var file in Directory.GetFiles(path, "*.*", SearchOption.AllDirectories))
             {
                 var plugin = AllConfigurationProcessors.FirstOrDefault(p => p.CanProcess(file));
 
                 if (plugin != null)
-                    launchers.Add(plugin.Load(file));
+                    launchers = launchers.Concat(plugin.Load(file));
             }
 
             return MergeLaunchers(launchers);

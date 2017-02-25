@@ -1,0 +1,6 @@
+{
+  "SettingsVersion": "42.0",
+  "Repositories": {
+    "XONE": [ "path1", "path2" ]
+  }
+}

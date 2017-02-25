@@ -9,13 +9,13 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
     {
         public ILauncherService LauncherService { get; set; }
 
-        public IEnumerable<RadialMenuItem> BuildMenuItems(LaunchersNode launchers)
+        public IEnumerable<RadialMenuItem> BuildMenuItems(IEnumerable<LaunchersNode> launchers)
         {
             var items = new List<RadialMenuItem>();
 
             if (launchers != null)
             {
-                foreach (var item in launchers.SubGroups)
+                foreach (var item in launchers)
                 {
                     items.Add(GetNodeMenuItem(item));
                 }

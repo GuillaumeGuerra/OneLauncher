@@ -51,9 +51,9 @@ namespace OneLauncher.ViewModels
 
         private async void Loaded()
         {
-            var launchersNodes = await Task.Run(() => ConfigurationLoader.LoadConfiguration("Configuration"));
+            var launchersNodes = await Task.Run(() => ConfigurationLoader.LoadConfiguration("Launchers"));
 
-            Launchers = new ObservableCollection<RadialMenuItem>(launchersNodes.Select(l => RadialMenuItemBuilder.BuildMenuItems(l)).SelectMany(t => t));
+            Launchers = new ObservableCollection<RadialMenuItem>(RadialMenuItemBuilder.BuildMenuItems(launchersNodes));
 
             // Now that the radial menu is ready, we can make it visible
             IsOpened = true;

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using Autofac;
 using Autofac.Extras.CommonServiceLocator;
 using Microsoft.Practices.ServiceLocation;
+using OneLauncher.Properties;
 using OneLauncher.Services.MessageService;
 
 namespace OneLauncher
