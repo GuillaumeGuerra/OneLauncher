@@ -1,7 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Infragistics.Controls.Menus;
+using OneLauncher.Framework;
+using OneLauncher.Properties;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.LauncherService;
+using OneLauncher.ViewModels;
 
 namespace OneLauncher.Services.RadialMenuItemBuilder
 {
@@ -9,7 +16,7 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
     {
         public ILauncherService LauncherService { get; set; }
 
-        public IEnumerable<RadialMenuItem> BuildMenuItems(IEnumerable<LaunchersNode> launchers)
+        public IEnumerable<RadialMenuItem> BuildMenuItems(IEnumerable<LaunchersNode> launchers, OneLauncherViewModel vm)
         {
             var items = new List<RadialMenuItem>();
 
@@ -19,6 +26,10 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
                 {
                     items.Add(GetNodeMenuItem(item));
                 }
+
+                var settingsButton = GetSettingsButton(vm);
+
+                items.Add(settingsButton);
             }
 
             return items;
@@ -26,7 +37,7 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
 
         public RadialMenuItem GetNodeMenuItem(LaunchersNode launchers)
         {
-            var item = new RadialMenuItem {Header = launchers.Header};
+            var item = new RadialMenuItem { Header = launchers.Header };
 
             foreach (var group in launchers.SubGroups)
             {
@@ -47,6 +58,24 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
             button.Click += (s, e) => LauncherService.Launch(launcher);
 
             return button;
+        }
+
+        private RadialMenuItem GetSettingsButton(OneLauncherViewModel vm)
+        {
+            var settingsButton = new RadialMenuItem
+            {
+                Header = "Settings",
+                Icon = new Image()
+                {
+                    Source = Resources.settings.ToImageSource(),
+                    Width = 35,
+                    Height = 35
+                }
+            };
+
+            settingsButton.Click += (s, e) => vm.OpenSettingsCommand.Execute(null);
+
+            return settingsButton;
         }
     }
 }

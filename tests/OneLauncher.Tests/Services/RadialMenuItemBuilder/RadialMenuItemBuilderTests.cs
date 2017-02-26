@@ -4,6 +4,7 @@ using System.Threading;
 using Infragistics.Controls.Menus;
 using NUnit.Framework;
 using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.ViewModels;
 
 namespace OneLauncher.Tests.Services.RadialMenuItemBuilder
 {
@@ -14,7 +15,7 @@ namespace OneLauncher.Tests.Services.RadialMenuItemBuilder
         [TestCase(false)]
         public void ShouldCreateEmptyListOfItemsWhenBoundToEmptyListOfLaunchers(bool nullLaunchers)
         {
-            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>());
+            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>(), null);
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual.Count(), Is.EqualTo(0));
         }
@@ -62,7 +63,7 @@ namespace OneLauncher.Tests.Services.RadialMenuItemBuilder
                     }
                 }
             };
-            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(launchers).ToList();
+            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(launchers, new OneLauncherViewModel()).ToList();
 
             Assert.That(actual, Has.Count.EqualTo(2));
 

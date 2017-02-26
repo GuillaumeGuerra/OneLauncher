@@ -35,7 +35,7 @@
                     <i:InvokeCommandAction Command="{Binding ClosedCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
         </ig:XamRadialMenu>
     </Grid>
 </Window>

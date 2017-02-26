@@ -4,10 +4,13 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using Autofac;
+using Autofac.AttributeExtensions;
 using Autofac.Extras.CommonServiceLocator;
 using Microsoft.Practices.ServiceLocation;
 using OneLauncher.Properties;
 using OneLauncher.Services.MessageService;
+using OneLauncher.Services.RadialMenuItemBuilder;
+using OneLauncher.ViewModels;
 
 namespace OneLauncher
 {
@@ -32,6 +35,8 @@ namespace OneLauncher
             var builder = new ContainerBuilder();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).PropertiesAutowired().AsImplementedInterfaces().AsSelf();
+
+            builder.RegisterAttributedClasses(Assembly.GetExecutingAssembly());
 
             Container = builder.Build();
             ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(Container));
