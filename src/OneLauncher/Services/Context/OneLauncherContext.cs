@@ -1,10 +1,12 @@
 using System;
 using System.Configuration;
 using System.IO;
+using Autofac.AttributeExtensions;
 using Newtonsoft.Json;
 
 namespace OneLauncher.Services.Context
 {
+    [SingleInstance]
     public class OneLauncherContext : IOneLauncherContext
     {
         private readonly Lazy<UserSettings> _userSettings;

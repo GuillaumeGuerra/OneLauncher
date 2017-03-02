@@ -4,13 +4,16 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Autofac;
+using Autofac.AttributeExtensions;
 using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Controls.Menus;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.RadialMenuItemBuilder;
+using OneLauncher.Views;
 
 namespace OneLauncher.ViewModels
 {
+    [SingleInstance]
     public class OneLauncherViewModel : DependencyObject
     {
         public static readonly DependencyProperty LaunchersProperty =
@@ -44,6 +47,11 @@ namespace OneLauncher.ViewModels
             get { return new RelayCommand(Loaded); }
         }
 
+        public ICommand OpenSettingsCommand
+        {
+            get { return new RelayCommand(OpenSettings); }
+        }
+
         public OneLauncherViewModel()
         {
             App.Container.InjectProperties(this);
@@ -53,7 +61,7 @@ namespace OneLauncher.ViewModels
         {
             var launchersNodes = await Task.Run(() => ConfigurationLoader.LoadConfiguration("Launchers"));
 
-            Launchers = new ObservableCollection<RadialMenuItem>(RadialMenuItemBuilder.BuildMenuItems(launchersNodes));
+            Launchers = new ObservableCollection<RadialMenuItem>(RadialMenuItemBuilder.BuildMenuItems(launchersNodes, this));
 
             // Now that the radial menu is ready, we can make it visible
             IsOpened = true;
@@ -62,6 +70,11 @@ namespace OneLauncher.ViewModels
         private void Closed()
         {
             Application.Current.Shutdown();
+        }
+
+        private void OpenSettings()
+        {
+            App.Container.Resolve<ISettingsView>().ShowDialog();
         }
     }
 }
