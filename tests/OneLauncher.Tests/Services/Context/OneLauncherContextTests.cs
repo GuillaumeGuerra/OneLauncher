@@ -38,6 +38,7 @@ namespace OneLauncher.Tests.Services.Context
                 // Even though there was no user settings yet, default one will be given in the context
                 Assert.That(context.UserSettings, Is.Not.Null);
                 Assert.That(context.UserSettings.Repositories, Has.Count.GreaterThan(0));
+                Assert.That(context.UserSettings.IsDefaultSettings, Is.True);
 
                 // And it should have been created in the directory
                 Assert.That(File.Exists(userSettingsPath), Is.True);
@@ -50,7 +51,11 @@ namespace OneLauncher.Tests.Services.Context
                 // Now we save them : the file should have been updated
                 context.SaveUserSettings();
 
+                // The saved file should be different, obviously
                 Assert.That(File.ReadAllText(userSettingsPath), Is.Not.EqualTo(defaultContent));
+
+                // And the settings no longer by default
+                Assert.That(context.UserSettings.IsDefaultSettings, Is.False);
 
                 // This time, when the context is loaded, we should get the new version of the settings
                 Assert.That(GetContext(directory).UserSettings.Repositories, Has.Count.EqualTo(2));
@@ -81,6 +86,8 @@ namespace OneLauncher.Tests.Services.Context
                 Assert.That(repos[1].Path, Is.EqualTo("path2"));
 
                 Assert.That(context.UserSettings.SettingsVersion, Is.EqualTo("42.0"));
+
+                Assert.That(context.UserSettings.IsDefaultSettings, Is.False);
 
                 // By resaving the settings, we'll test that we can overwrite settings when they are already available
 

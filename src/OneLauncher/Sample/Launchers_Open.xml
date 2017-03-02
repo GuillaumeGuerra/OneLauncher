@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration RepoType="XONE">
+  <GenericTemplate>
+    <SubGroups>
+      <Group Header="Solutions">
+        <Launchers>
+          <Launcher Header="Base.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Rebels/Yavin/base.sln" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="Padawan.sln">
+            <Commands>
+              <Execute Command="[ROOT]/Jedis/padawan.sln" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="TestSolution.sln">
+            <Commands>
+              <Execute Command="[ROOT]/TestSolution/TestSolution.sln" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+      <Group Header="Open">
+        <Launchers>
+          <Launcher Header="DEV">
+            <Commands>
+              <File SourceFilePath="[ROOT]/test.dll.config" TargetFilePath="../debug/test.dll.config" />
+              <XPath FilePath="test.dll.config" XPath="configuration/appSettings/add[@key='sizeOfMyAss']/@value" Value="not that big actually" />
+              <Execute Command="[ROOT]/DS.cmd" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="On Yesterday">
+            <Commands>
+              <File SourceFilePath="[ROOT]/test.dll.config" TargetFilePath="../debug/test.dll.config" />
+              <XPath FilePath="test.dll.config" XPath="configuration/appSettings/add[@key='sizeOfMyAss']/@value" Value="not that big actually" />
+              <Execute Command="[ROOT]/DS.cmd" />
+            </Commands>
+          </Launcher>
+          <Launcher Header="On PreBETA">
+            <Commands>
+              <File SourceFilePath="[ROOT]/test.dll.config" TargetFilePath="../debug/test.dll.config" />
+              <XPath FilePath="test.dll.config" XPath="configuration/appSettings/add[@key='sizeOfMyAss']/@value" Value="not that big actually" />
+              <Execute Command="[ROOT]/DS.cmd" />
+            </Commands>
+          </Launcher>
+        </Launchers>
+      </Group>
+    </SubGroups>
+  </GenericTemplate>
+</Configuration>

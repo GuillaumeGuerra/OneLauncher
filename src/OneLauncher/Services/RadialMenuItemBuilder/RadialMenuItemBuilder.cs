@@ -26,11 +26,11 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
                 {
                     items.Add(GetNodeMenuItem(item));
                 }
-
-                var settingsButton = GetSettingsButton(vm);
-
-                items.Add(settingsButton);
             }
+
+            var settingsButton = GetSettingsButton(vm);
+
+            items.Add(settingsButton);
 
             return items;
         }

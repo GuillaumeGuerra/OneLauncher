@@ -8,6 +8,7 @@ using Autofac.AttributeExtensions;
 using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Controls.Menus;
 using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.Services.Context;
 using OneLauncher.Services.RadialMenuItemBuilder;
 using OneLauncher.Views;
 
@@ -26,7 +27,6 @@ namespace OneLauncher.ViewModels
             get { return (ObservableCollection<RadialMenuItem>)GetValue(LaunchersProperty); }
             set { SetValue(LaunchersProperty, value); }
         }
-
         public bool IsOpened
         {
             get { return (bool)GetValue(IsOpenedProperty); }
@@ -34,19 +34,17 @@ namespace OneLauncher.ViewModels
         }
 
         public IRadialMenuItemBuilder RadialMenuItemBuilder { get; set; }
-
         public IConfigurationLoader ConfigurationLoader { get; set; }
+        public IOneLauncherContext Context { get; set; }
 
         public ICommand ClosedCommand
         {
             get { return new RelayCommand(Closed); }
         }
-
         public ICommand LoadedCommand
         {
             get { return new RelayCommand(Loaded); }
         }
-
         public ICommand OpenSettingsCommand
         {
             get { return new RelayCommand(OpenSettings); }
@@ -58,6 +56,14 @@ namespace OneLauncher.ViewModels
         }
 
         private async void Loaded()
+        {
+            if (Context.UserSettings.IsDefaultSettings)
+                OpenSettings();
+
+            await FillLaunchers();
+        }
+
+        private async Task FillLaunchers()
         {
             var launchersNodes = await Task.Run(() => ConfigurationLoader.LoadConfiguration("Launchers"));
 
@@ -72,9 +78,11 @@ namespace OneLauncher.ViewModels
             Application.Current.Shutdown();
         }
 
-        private void OpenSettings()
+        private async void OpenSettings()
         {
             App.Container.Resolve<ISettingsView>().ShowDialog();
+
+            await FillLaunchers();
         }
     }
 }

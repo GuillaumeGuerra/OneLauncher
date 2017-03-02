@@ -13,11 +13,13 @@ namespace OneLauncher.Tests.Services.RadialMenuItemBuilder
     {
         [TestCase(true)]
         [TestCase(false)]
+        [Apartment(ApartmentState.STA)]
         public void ShouldCreateEmptyListOfItemsWhenBoundToEmptyListOfLaunchers(bool nullLaunchers)
         {
-            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>(), null);
+            var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(nullLaunchers ? null : new List<LaunchersNode>(), null).ToList();
             Assert.That(actual, Is.Not.Null);
-            Assert.That(actual.Count(), Is.EqualTo(0));
+            Assert.That(actual, Has.Count.EqualTo(1)); // The setting button
+            Assert.That(actual[0].Header, Is.EqualTo("Settings"));
         }
 
         [Test]
@@ -65,7 +67,7 @@ namespace OneLauncher.Tests.Services.RadialMenuItemBuilder
             };
             var actual = new OneLauncher.Services.RadialMenuItemBuilder.RadialMenuItemBuilder().BuildMenuItems(launchers, new OneLauncherViewModel()).ToList();
 
-            Assert.That(actual, Has.Count.EqualTo(2));
+            Assert.That(actual, Has.Count.EqualTo(3)); // 2 + the settings button
 
             var first = actual[0];
             Assert.That(first.Header, Is.EqualTo("Item1"));

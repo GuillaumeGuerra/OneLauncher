@@ -13,6 +13,9 @@ namespace OneLauncher.Services.Context
         [JsonProperty]
         public Dictionary<string, List<Repository>> Repositories { get; set; }
 
+        [JsonIgnore]
+        public bool IsDefaultSettings { get; set; }
+
         public UserSettings()
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -31,7 +34,8 @@ namespace OneLauncher.Services.Context
                         new Repository(){Name = "MASTER",Path = @"D:/DEV/XOneMaster"},
                         new Repository(){Name = "PROD",Path = @"D:/DEV/XOneProd"}
                     } }
-                }
+                },
+                IsDefaultSettings = true
             };
         }
     }

@@ -28,7 +28,6 @@ namespace OneLauncher.ViewModels
             get { return (bool)GetValue(SettingsChangedProperty); }
             set { SetValue(SettingsChangedProperty, value); }
         }
-
         public TrulyObservableCollection<RepositoryViewModel> Repositories
         {
             get { return (TrulyObservableCollection<RepositoryViewModel>)GetValue(RepositoriesProperty); }
@@ -36,17 +35,14 @@ namespace OneLauncher.ViewModels
         }
 
         public IOneLauncherContext Context { get; set; }
-
         public ICommand LoadedCommand
         {
             get { return new RelayCommand(Loaded); }
         }
-
         public ICommand SaveSettingsCommand
         {
             get { return new RelayCommand(SaveSettings); }
         }
-
         public ICommand ClosingCommand
         {
             get { return new RelayCommand<CancelEventArgs>(Closing); }

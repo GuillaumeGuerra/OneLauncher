@@ -28,6 +28,8 @@ namespace OneLauncher.Services.Context
         {
             var json = JsonConvert.SerializeObject(UserSettings, Formatting.Indented);
             File.WriteAllText(GetUserSettingsFilePath(), json);
+
+            UserSettings.IsDefaultSettings = false;
         }
 
         private UserSettings LoadUserSettings()
@@ -35,7 +37,11 @@ namespace OneLauncher.Services.Context
             var userSettingsFilePath = GetUserSettingsFilePath();
 
             if (File.Exists(userSettingsFilePath))
-                return JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(userSettingsFilePath));
+            {
+                var loadedSettings = JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(userSettingsFilePath));
+                loadedSettings.IsDefaultSettings = false;
+                return loadedSettings;
+            }
 
             if (!Directory.Exists(GetUserSettingsDirectoryPath()))
                 Directory.CreateDirectory(GetUserSettingsDirectoryPath());
