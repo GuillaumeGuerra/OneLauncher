@@ -105,6 +105,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Framework\TrulyObservableCollection.cs" />
     <Compile Include="Framework\CloneHelper.cs" />
     <Compile Include="Framework\DependencyInjectionExtensions.cs" />
     <Compile Include="Framework\ImageHelper.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Services\Context\UserSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\OneLauncherViewModel.cs" />
+    <Compile Include="ViewModels\RepositoryViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="App.xaml.cs">
