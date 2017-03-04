@@ -61,12 +61,12 @@ namespace OneLauncher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Bitmap settings {
+        internal static System.Drawing.Icon Settings {
             get {
-                object obj = ResourceManager.GetObject("settings", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("Settings", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

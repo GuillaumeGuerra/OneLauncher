@@ -13,10 +13,10 @@ namespace OneLauncher.Framework
 {
     public static class ImageHelper
     {
-        public static ImageSource ToImageSource(this Bitmap image)
+        public static ImageSource ToImageSource(this Icon image)
         {
             return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                      image.GetHbitmap(),
+                      image.ToBitmap().GetHbitmap(),
                       IntPtr.Zero,
                       Int32Rect.Empty,
                       BitmapSizeOptions.FromEmptyOptions());

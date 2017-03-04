@@ -9,8 +9,8 @@
     x:Class="OneLauncher.Views.SettingsView"
     mc:Ignorable="d"
     WindowStartupLocation="CenterScreen"
-    Title="SettingsView" Height="600" Width="800"
-    DataContext="{Binding SettingsViewViewModel, Source={StaticResource Locator}}">
+    Title="Settings" Height="600" Width="800"
+    DataContext="{Binding SettingsViewViewModel, Source={StaticResource Locator}}" Icon="pack://siteoforigin:,,,/Resources/settings.ico">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />

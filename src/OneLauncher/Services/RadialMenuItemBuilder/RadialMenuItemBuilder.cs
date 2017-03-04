@@ -67,9 +67,9 @@ namespace OneLauncher.Services.RadialMenuItemBuilder
                 Header = "Settings",
                 Icon = new Image()
                 {
-                    Source = Resources.settings.ToImageSource(),
-                    Width = 35,
-                    Height = 35
+                    Source = Resources.Settings.ToImageSource(),
+                    Width = 25,
+                    Height = 25
                 }
             };
 

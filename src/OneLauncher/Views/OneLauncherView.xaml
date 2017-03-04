@@ -7,11 +7,11 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     x:Class="OneLauncher.Views.OneLauncherView"
     mc:Ignorable="d"
-    Title="OneLauncherView" Height="300" Width="300"
+    Title="One Launcher" Height="300" Width="300"
     AllowsTransparency="True"
     WindowStyle="None"
     Background="Transparent"
-    DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding MainViewModel, Source={StaticResource Locator}}" Icon="pack://siteoforigin:,,,/Resources/icon.png">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
