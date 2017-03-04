@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using OneLauncher.Framework;
+using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Tests.Framework;
 using ConfigLoader = OneLauncher.Services.ConfigurationLoader.ConfigurationLoader;
@@ -184,6 +186,54 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                 Assert.That(launchers[1].SubGroups[0].SubGroups[0].Launchers,
                     Is.EquivalentTo(new[] { secondNode.SubGroups[0].SubGroups[0].Launchers[0] }));
             }
+        }
+
+        [Test]
+        public void LaunchersNodeShouldBeClonable()
+        {
+            var launchers = new LaunchersNode()
+            {
+                Header = "Repo1",
+                Launchers =
+                {
+                    new LauncherLink()
+                    {
+                        Header = "Launcher1",
+                        Commands = new List<LauncherCommand>()
+                        {
+                            new ExecuteCommand() { Command = "Command1" },
+                            new FileCopierCommand() { SourceFilePath = "Source1", TargetFilePath = "Target1" }
+                        }
+                    }
+                },
+                SubGroups =
+                {
+                    new LaunchersNode()
+                    {
+                        Header = "SubGroup1",
+                        Launchers =
+                        {
+                            new LauncherLink()
+                            {
+                                Header = "Launcher1",
+                                Commands = new List<LauncherCommand>()
+                                {
+                                    new ExecuteCommand() { Command = "Command1" },
+                                    new FileCopierCommand() { SourceFilePath = "Source1", TargetFilePath = "Target1" }
+                                }
+                            }
+                        },
+                    },
+                    new LaunchersNode()
+                    {
+                        Header = "SubGroup2"
+                    }
+                }
+            };
+
+            // This test ensures that WCF serialization works, even though LauncherLink class contains a collection made of statically unknown subclasses
+            // To overcome the issue, we have provided a KnownType collection for the LauncherCommand class
+            launchers.DeepClone();
         }
 
         private Mock<ILauncherConfigurationProcessor> CreateMockProcessor(params LaunchersNode[] launchers)

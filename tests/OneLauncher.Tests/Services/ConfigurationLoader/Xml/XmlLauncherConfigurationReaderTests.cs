@@ -111,25 +111,4 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
             Assert.That(xpathCommand.TargetFilePath, Is.EqualTo(targetFilePath));
         }
     }
-
-    [TestFixture]
-    public class XmlCopierCommandTests
-    {
-        [Test]
-        public void ShouldReadConfigurationFromXml()
-        {
-            var xml = @"<File SourceFilePath=""jar-jar"" TargetFilePath=""trash"" />";
-            var outerXml = @"
-<Configuration>
-    <GenericTemplate>
-        <Launcher>" + 
-            xml + 
-        @"</Launcher>
-    </GenericTemplate>
-</Configuration>";
-
-            // TODO complete the generic UT
-            var actual = new XmlLauncherConfigurationReader().LoadFile("Data/LaunchersTest1.xml");
-        }
-    }
 }

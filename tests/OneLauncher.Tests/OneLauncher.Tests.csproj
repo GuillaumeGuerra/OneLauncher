@@ -81,7 +81,11 @@
     <Compile Include="Framework\ContainerOverrider.cs" />
     <Compile Include="Framework\ContainerOverriderTests.cs" />
     <Compile Include="Framework\TemporaryDirectory.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\CommonXmlCommandTests.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\XmlCopierCommandTests.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\XmlExecuteCommandTests.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationProcessorTests.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\XmlXPathReplacerCommandTests.cs" />
     <Compile Include="Services\Context\OneLauncherContextTests.cs" />
     <Compile Include="Services\LauncherService\LauncherServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

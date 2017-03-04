@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using OneLauncher.Framework;
 
 namespace OneLauncher.Services.ConfigurationLoader
 {
@@ -10,9 +11,7 @@ namespace OneLauncher.Services.ConfigurationLoader
     {
         public static IEnumerable<Type> GetKnownCommands()
         {
-            return App.Container.ComponentRegistry.Registrations
-                .Where(r => typeof(LauncherCommand).IsAssignableFrom(r.Activator.LimitType))
-                .Select(r => r.Activator.LimitType);
+            return App.Container.GetRegisteredSubClasses<LauncherCommand>();
         }
     }
 }
