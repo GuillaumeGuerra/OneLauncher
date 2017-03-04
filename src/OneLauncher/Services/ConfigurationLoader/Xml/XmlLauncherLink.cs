@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
@@ -9,9 +12,6 @@ namespace OneLauncher.Services.ConfigurationLoader.Xml
         public string Header { get; set; }
 
         [XmlArray("Commands")]
-        [XmlArrayItem("Execute", typeof(XmlExecuteCommand))]
-        [XmlArrayItem("XPath", typeof(XmlXPathReplacerCommand))]
-        [XmlArrayItem("File", typeof(XmlFileCopierCommand))]
         public List<XmlLauncherCommand> Commands { get; set; }
     }
 }

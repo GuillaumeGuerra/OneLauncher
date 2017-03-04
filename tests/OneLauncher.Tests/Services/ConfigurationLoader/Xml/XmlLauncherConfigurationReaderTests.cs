@@ -12,8 +12,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
         [Test]
         public void ShouldReadAllRowsProperlyWhenLoadingXmlFile()
         {
-            var service = new XmlLauncherConfigurationReader();
-            var actual = service.LoadFile("Data/LaunchersTest1.xml");
+            var actual = new XmlLauncherConfigurationReader().LoadFile("Data/LaunchersTest1.xml");
             Assert.That(actual.RepoType, Is.EqualTo("Kirk you stink"));
 
             Assert.That(actual.GenericTemplate, Is.Not.Null);
@@ -71,20 +70,19 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
         }
 
         [Test]
-        public void AllTypeOfCommandsShouldBeReferencedInXmlLauncherLinkClass()
+        public void AllTypeOfCommandsShouldBeDecoratedWithAnXmlAttribute()
         {
             var commands =
                 typeof(XmlLauncherCommand).Assembly.GetTypes()
                     .Where(t => t.BaseType != null && t.BaseType == typeof(XmlLauncherCommand))
                     .ToList();
 
-            var attributes =
-                typeof(XmlLauncherLink).GetProperty("Commands")
-                    .GetCustomAttributes(typeof(XmlArrayItemAttribute), false).Cast<XmlArrayItemAttribute>().Select(a => a.Type).ToList();
-
             foreach (var command in commands)
             {
-                Assert.That(attributes, Contains.Item(command),$"Missing XmlArrayAttribute for type [{command.FullName}] in XmlLauncherLink class");
+                Assert.That(command.GetCustomAttributes(typeof(XmlNameAttribute), false), Has.Length.EqualTo(1), $"Missing XmlNameAttribute for type [{command.FullName}]");
+
+                var attribute = command.GetCustomAttributes(typeof(XmlNameAttribute), false)[0] as XmlNameAttribute;
+                Assert.That(attribute.Name, Is.Not.Null.And.Not.Empty, $"Null or empty name for XmlNameAttribute on type [{command.FullName}]");
             }
         }
 
@@ -111,6 +109,27 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
 
             Assert.That(xpathCommand.SourceFilePath, Is.EqualTo(sourceFilePath));
             Assert.That(xpathCommand.TargetFilePath, Is.EqualTo(targetFilePath));
+        }
+    }
+
+    [TestFixture]
+    public class XmlCopierCommandTests
+    {
+        [Test]
+        public void ShouldReadConfigurationFromXml()
+        {
+            var xml = @"<File SourceFilePath=""jar-jar"" TargetFilePath=""trash"" />";
+            var outerXml = @"
+<Configuration>
+    <GenericTemplate>
+        <Launcher>" + 
+            xml + 
+        @"</Launcher>
+    </GenericTemplate>
+</Configuration>";
+
+            // TODO complete the generic UT
+            var actual = new XmlLauncherConfigurationReader().LoadFile("Data/LaunchersTest1.xml");
         }
     }
 }

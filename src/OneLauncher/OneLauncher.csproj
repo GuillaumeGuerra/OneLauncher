@@ -178,6 +178,7 @@
     <Compile Include="Services\ConfigurationLoader\ILauncherConfigurationProcessor.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\IXmlLauncherConfigurationReader.cs" />
     <Compile Include="Services\ConfigurationLoader\FileCopierCommand.cs" />
+    <Compile Include="Services\ConfigurationLoader\Xml\XmlNameAttribute.cs" />
     <Compile Include="Services\Context\ApplicationSettings.cs" />
     <Compile Include="Services\Context\IApplicationSettingsService.cs" />
     <Compile Include="Services\Context\IOneLauncherContext.cs" />

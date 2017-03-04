@@ -11,7 +11,7 @@
             <Commands>
               <Execute Command="[ROOT]/Rebels/Yavin/base.sln" />
               <XPath FilePath="[ROOT]/assembly.dll.config" XPath="configuration/appSettings[@name='who's the best jedi ?']" Value="yoda" />
-              <File SourceFilePath="[ROOT]/somewhere/assembly.dll.config" TargetFilePath="[ROOT]/somewhere else/assembly.dll.config" />
+              <CopyFile SourceFilePath="[ROOT]/somewhere/assembly.dll.config" TargetFilePath="[ROOT]/somewhere else/assembly.dll.config" />
             </Commands>
           </Launcher>
           <Launcher Header="Padawan.sln">

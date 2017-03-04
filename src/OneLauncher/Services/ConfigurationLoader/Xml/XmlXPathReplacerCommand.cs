@@ -2,6 +2,7 @@
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
 {
+    [XmlName("XPath")]
     public class XmlXPathReplacerCommand : XmlLauncherCommand
     {
         [XmlAttribute]

@@ -3,6 +3,7 @@ using OneLauncher.Services.CommandLauncher;
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
 {
+    [XmlName("Execute")]
     public class XmlExecuteCommand : XmlLauncherCommand
     {
         [XmlAttribute]

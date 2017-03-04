@@ -2,6 +2,7 @@
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
 {
+    [XmlName("CopyFile")]
     public class XmlFileCopierCommand : XmlLauncherCommand
     {
         [XmlAttribute]
