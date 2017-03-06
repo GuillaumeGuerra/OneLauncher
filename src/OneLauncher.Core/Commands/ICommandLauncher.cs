@@ -1,6 +1,4 @@
-﻿using OneLauncher.Services.ConfigurationLoader;
-
-namespace OneLauncher.Services.CommandLauncher
+﻿namespace OneLauncher.Core.Commands
 {
     public interface ICommandLauncher
     {

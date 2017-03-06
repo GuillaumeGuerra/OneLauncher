@@ -4,8 +4,11 @@ using System.Linq;
 using System.Reflection;
 using Moq;
 using NUnit.Framework;
+using OneLauncher.Commands.Commands.ExecuteCommand;
+using OneLauncher.Commands.Commands.XPathReplacer;
+using OneLauncher.Core.Commands;
+using OneLauncher.Core.Container;
 using OneLauncher.Framework;
-using OneLauncher.Services.CommandLauncher;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.MessageService;
 using OneLauncher.Tests.Services.CommandLauncher;
@@ -118,7 +121,7 @@ namespace OneLauncher.Tests.Services.LauncherService
                             .Select(t => t.BaseType.GetGenericArguments()[0])
                     .ToList();
 
-            foreach (var plugin in App.Container.GetImplementations<ICommandLauncher>())
+            foreach (var plugin in OneLauncherContainer.Instance.GetImplementations<ICommandLauncher>())
             {
                 var pluginType = plugin.GetType();
                 if (testedTypes.All(t => t != pluginType))

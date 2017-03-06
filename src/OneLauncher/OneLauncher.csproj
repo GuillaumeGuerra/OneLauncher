@@ -166,19 +166,11 @@
     </ApplicationDefinition>
     <Compile Include="Framework\TrulyObservableCollection.cs" />
     <Compile Include="Framework\CloneHelper.cs" />
-    <Compile Include="Framework\DependencyInjectionExtensions.cs" />
     <Compile Include="Framework\ImageHelper.cs" />
-    <Compile Include="Services\CommandLauncher\BaseCommandLauncher.cs" />
-    <Compile Include="Services\CommandLauncher\ExecuteCommandLauncher.cs" />
-    <Compile Include="Services\CommandLauncher\FileCopier.cs" />
-    <Compile Include="Services\CommandLauncher\ICommandLauncher.cs" />
-    <Compile Include="Services\CommandLauncher\XPathReplacer.cs" />
     <Compile Include="Services\ConfigurationLoader\ConfigurationLoader.cs" />
     <Compile Include="Services\ConfigurationLoader\IConfigurationLoader.cs" />
     <Compile Include="Services\ConfigurationLoader\ILauncherConfigurationProcessor.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\IXmlLauncherConfigurationReader.cs" />
-    <Compile Include="Services\ConfigurationLoader\FileCopierCommand.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlNameAttribute.cs" />
     <Compile Include="Services\Context\ApplicationSettings.cs" />
     <Compile Include="Services\Context\IApplicationSettingsService.cs" />
     <Compile Include="Services\Context\IOneLauncherContext.cs" />
@@ -187,9 +179,6 @@
     <Compile Include="Services\Context\Repository.cs" />
     <Compile Include="Services\LauncherService\ILauncherService.cs" />
     <Compile Include="Services\LauncherService\LauncherService.cs" />
-    <Compile Include="Services\CommandLauncher\ExecuteCommand.cs" />
-    <Compile Include="Services\ConfigurationLoader\LauncherCommand.cs" />
-    <Compile Include="Services\ConfigurationLoader\XPathReplacerCommand.cs" />
     <Compile Include="Services\MessageService\MessageService.cs" />
     <Compile Include="Services\MessageService\IMessageService.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationProcessor.cs" />
@@ -197,14 +186,10 @@
     <Compile Include="Services\ConfigurationLoader\LaunchersNode.cs" />
     <Compile Include="Services\RadialMenuItemBuilder\IRadialMenuItemBuilder.cs" />
     <Compile Include="Services\RadialMenuItemBuilder\RadialMenuItemBuilder.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlExecuteCommand.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlFileCopierCommand.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherCommand.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfiguration.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherGenericTemplate.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherLink.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationReader.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlXPathReplacerCommand.cs" />
     <Compile Include="Services\Context\UserSettings.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\OneLauncherViewModel.cs" />
@@ -305,6 +290,16 @@
     <None Include="Resources\settings.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneLauncher.Commands\OneLauncher.Commands.csproj">
+      <Project>{dfdd804e-676e-46f0-b4a7-3c5fefba5cf6}</Project>
+      <Name>OneLauncher.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OneLauncher.Core\OneLauncher.Core.csproj">
+      <Project>{03314DB7-9799-4BB5-9725-16CDF808611C}</Project>
+      <Name>OneLauncher.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

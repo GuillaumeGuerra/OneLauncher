@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
-using OneLauncher.Services.CommandLauncher;
+using OneLauncher.Commands.Commands.ExecuteCommand;
 
 namespace OneLauncher.Tests.Services.CommandLauncher
 {

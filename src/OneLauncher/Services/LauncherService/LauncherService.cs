@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OneLauncher.Services.CommandLauncher;
+using OneLauncher.Core.Commands;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.MessageService;
 

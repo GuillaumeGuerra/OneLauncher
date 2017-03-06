@@ -9,6 +9,7 @@ using Autofac;
 using Autofac.AttributeExtensions;
 using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Windows.Internal;
+using OneLauncher.Core.Container;
 using OneLauncher.Framework;
 using OneLauncher.Services.Context;
 using OneLauncher.Services.RadialMenuItemBuilder;
@@ -50,7 +51,7 @@ namespace OneLauncher.ViewModels
 
         public SettingsViewViewModel()
         {
-            App.Container.InjectProperties(this);
+            OneLauncherContainer.Instance.InjectProperties(this);
 
             Repositories = new TrulyObservableCollection<RepositoryViewModel>();
             Repositories.CollectionChanged += Repositories_CollectionChanged;

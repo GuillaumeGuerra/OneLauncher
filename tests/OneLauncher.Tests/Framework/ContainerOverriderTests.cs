@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NUnit.Framework;
+using OneLauncher.Core.Container;
 
 namespace OneLauncher.Tests.Framework
 {
@@ -9,16 +10,16 @@ namespace OneLauncher.Tests.Framework
         [Test]
         public void ShouldOverrideCurrentContainerAndRestoreItAfterTheDispose()
         {
-            var initialContainer = App.Container;
+            var initialContainer = OneLauncherContainer.Instance;
 
             var newContainer = new ContainerBuilder().Build();
             using (ContainerOverrider.Override(newContainer))
             {
-                Assert.That(App.Container, Is.SameAs(newContainer));
+                Assert.That(OneLauncherContainer.Instance, Is.SameAs(newContainer));
             }
 
             // And now it should be back to normal
-            Assert.That(App.Container, Is.SameAs(initialContainer));
+            Assert.That(OneLauncherContainer.Instance, Is.SameAs(initialContainer));
         }
     }
 }

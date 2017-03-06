@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
+using OneLauncher.Core.Commands;
 
-namespace OneLauncher.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Commands.Commands.XPathReplacer
 {
     [XmlName("XPath")]
     public class XmlXPathReplacerCommand : XmlLauncherCommand

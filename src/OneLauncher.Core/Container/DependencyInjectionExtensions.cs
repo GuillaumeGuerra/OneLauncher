@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using Autofac.Core;
 
-namespace OneLauncher.Framework
+namespace OneLauncher.Core.Container
 {
     public static class DependencyInjectionExtensions
     {

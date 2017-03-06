@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using OneLauncher.Services.CommandLauncher;
+using OneLauncher.Commands.Commands.ExecuteCommand;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 
 namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml

@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
+using OneLauncher.Core.Commands;
 
-namespace OneLauncher.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Commands.Commands.CopyFile
 {
     [XmlName("CopyFile")]
     public class XmlFileCopierCommand : XmlLauncherCommand

@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.Core.Commands;
 
-namespace OneLauncher.Services.CommandLauncher
+namespace OneLauncher.Commands.Commands.CopyFile
 {
     public class FileCopier : BaseCommandLauncher<FileCopierCommand>
     {

@@ -1,6 +1,6 @@
 using System.IO;
 using NUnit.Framework;
-using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.Core.Commands;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 using OneLauncher.Tests.Framework;
 

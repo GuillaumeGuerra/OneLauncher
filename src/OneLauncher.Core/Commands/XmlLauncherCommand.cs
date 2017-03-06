@@ -1,9 +1,7 @@
 ﻿using System.Xml.Serialization;
 
-namespace OneLauncher.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Core.Commands
 {
-    [XmlInclude(typeof(XmlExecuteCommand))]
-    [XmlInclude(typeof(XmlXPathReplacerCommand))]
     public abstract class XmlLauncherCommand
     {
         protected const string RootToken = "[ROOT]";

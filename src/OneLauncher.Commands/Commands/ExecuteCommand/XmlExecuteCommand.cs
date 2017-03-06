@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
-using OneLauncher.Services.CommandLauncher;
+using OneLauncher.Core.Commands;
 
-namespace OneLauncher.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Commands.Commands.ExecuteCommand
 {
     [XmlName("Execute")]
     public class XmlExecuteCommand : XmlLauncherCommand

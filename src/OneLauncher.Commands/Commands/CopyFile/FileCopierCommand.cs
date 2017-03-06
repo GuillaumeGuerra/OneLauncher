@@ -1,4 +1,6 @@
-namespace OneLauncher.Services.ConfigurationLoader
+using OneLauncher.Core.Commands;
+
+namespace OneLauncher.Commands.Commands.CopyFile
 {
     public class FileCopierCommand : LauncherCommand
     {

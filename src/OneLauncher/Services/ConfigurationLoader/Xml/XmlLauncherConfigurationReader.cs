@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using OneLauncher.Core.Commands;
+using OneLauncher.Core.Container;
 using OneLauncher.Framework;
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
@@ -14,7 +16,7 @@ namespace OneLauncher.Services.ConfigurationLoader.Xml
             var xOver = new XmlAttributeOverrides();
             var xAttrs = new XmlAttributes();
 
-            foreach (var type in App.Container.GetRegisteredSubClasses<XmlLauncherCommand>())
+            foreach (var type in OneLauncherContainer.Instance.GetRegisteredSubClasses<XmlLauncherCommand>())
             {
                 var attribute = type.GetCustomAttributes(typeof(XmlNameAttribute), false);
                 if (attribute.Length > 0)

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using OneLauncher.Commands.Commands.CopyFile;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 

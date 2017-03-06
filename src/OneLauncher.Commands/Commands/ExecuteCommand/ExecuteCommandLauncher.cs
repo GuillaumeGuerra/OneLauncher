@@ -1,6 +1,7 @@
 using System.Diagnostics;
+using OneLauncher.Core.Commands;
 
-namespace OneLauncher.Services.CommandLauncher
+namespace OneLauncher.Commands.Commands.ExecuteCommand
 {
     public class ExecuteCommandLauncher : BaseCommandLauncher<ExecuteCommand>
     {

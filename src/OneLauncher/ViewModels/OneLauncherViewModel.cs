@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.AttributeExtensions;
 using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Controls.Menus;
+using OneLauncher.Core.Container;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.Context;
 using OneLauncher.Services.RadialMenuItemBuilder;
@@ -52,7 +53,7 @@ namespace OneLauncher.ViewModels
 
         public OneLauncherViewModel()
         {
-            App.Container.InjectProperties(this);
+            OneLauncherContainer.Instance.InjectProperties(this);
         }
 
         private async void Loaded()
@@ -80,7 +81,7 @@ namespace OneLauncher.ViewModels
 
         private async void OpenSettings()
         {
-            App.Container.Resolve<ISettingsView>().ShowDialog();
+            OneLauncherContainer.Instance.Resolve<ISettingsView>().ShowDialog();
 
             await FillLaunchers();
         }

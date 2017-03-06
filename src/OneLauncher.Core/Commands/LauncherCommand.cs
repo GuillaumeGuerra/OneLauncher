@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using OneLauncher.Framework;
+using OneLauncher.Core.Container;
 
-namespace OneLauncher.Services.ConfigurationLoader
+namespace OneLauncher.Core.Commands
 {
     [KnownType("GetKnownCommands")]
     public class LauncherCommand
     {
         public static IEnumerable<Type> GetKnownCommands()
         {
-            return App.Container.GetRegisteredSubClasses<LauncherCommand>();
+            return OneLauncherContainer.Instance.GetRegisteredSubClasses<LauncherCommand>();
         }
     }
 }

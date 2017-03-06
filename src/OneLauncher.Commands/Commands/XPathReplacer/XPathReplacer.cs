@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Xml;
-using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.Core.Commands;
 
-namespace OneLauncher.Services.CommandLauncher
+namespace OneLauncher.Commands.Commands.XPathReplacer
 {
     public class XPathReplacer : BaseCommandLauncher<XPathReplacerCommand>
     {

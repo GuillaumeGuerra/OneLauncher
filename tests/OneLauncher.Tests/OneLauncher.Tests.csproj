@@ -140,6 +140,14 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\OneLauncher.Commands\OneLauncher.Commands.csproj">
+      <Project>{DFDD804E-676E-46F0-B4A7-3C5FEFBA5CF6}</Project>
+      <Name>OneLauncher.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\OneLauncher.Core\OneLauncher.Core.csproj">
+      <Project>{03314DB7-9799-4BB5-9725-16CDF808611C}</Project>
+      <Name>OneLauncher.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\OneLauncher\OneLauncher.csproj">
       <Project>{69025ce8-eacd-4f92-afde-14e92ccf4aa3}</Project>
       <Name>OneLauncher</Name>

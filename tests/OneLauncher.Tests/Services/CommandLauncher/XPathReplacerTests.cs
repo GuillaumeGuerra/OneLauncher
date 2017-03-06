@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using OneLauncher.Services.CommandLauncher;
-using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.Commands.Commands.XPathReplacer;
 using OneLauncher.Tests.Framework;
 
 namespace OneLauncher.Tests.Services.CommandLauncher

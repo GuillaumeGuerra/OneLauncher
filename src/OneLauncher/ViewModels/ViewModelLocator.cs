@@ -1,12 +1,13 @@
 using Autofac;
 using Microsoft.Practices.ServiceLocation;
+using OneLauncher.Core.Container;
 
 namespace OneLauncher.ViewModels
 {
     public class ViewModelLocator
     {
-        public OneLauncherViewModel MainViewModel => App.Container.Resolve<OneLauncherViewModel>();
+        public OneLauncherViewModel MainViewModel => OneLauncherContainer.Instance.Resolve<OneLauncherViewModel>();
 
-        public SettingsViewViewModel SettingsViewViewModel => App.Container.Resolve<SettingsViewViewModel>();
+        public SettingsViewViewModel SettingsViewViewModel => OneLauncherContainer.Instance.Resolve<SettingsViewViewModel>();
     }
 }

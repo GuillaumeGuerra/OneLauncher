@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OneLauncher.Core.Commands;
 
 namespace OneLauncher.Services.ConfigurationLoader
 {

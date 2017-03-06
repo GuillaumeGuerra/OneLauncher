@@ -1,6 +1,6 @@
 using System;
 
-namespace OneLauncher.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Core.Commands
 {
     public class XmlNameAttribute : Attribute
     {

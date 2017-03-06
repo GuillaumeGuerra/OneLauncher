@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using OneLauncher.Core.Commands;
 using OneLauncher.Services.Context;
 using OneLauncher.Services.MessageService;
 

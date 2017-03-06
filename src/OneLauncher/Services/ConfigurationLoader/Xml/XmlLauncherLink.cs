@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using OneLauncher.Core.Commands;
 
 namespace OneLauncher.Services.ConfigurationLoader.Xml
 {

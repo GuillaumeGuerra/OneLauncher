@@ -2,6 +2,10 @@
 using System.Linq;
 using System.Xml.Serialization;
 using NUnit.Framework;
+using OneLauncher.Commands.Commands.CopyFile;
+using OneLauncher.Commands.Commands.ExecuteCommand;
+using OneLauncher.Commands.Commands.XPathReplacer;
+using OneLauncher.Core.Commands;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 
 namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
