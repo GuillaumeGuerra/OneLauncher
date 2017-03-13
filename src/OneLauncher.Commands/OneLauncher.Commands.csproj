@@ -47,6 +47,7 @@
     <Compile Include="Commands\ExecuteCommand\ExecuteCommand.cs" />
     <Compile Include="Commands\ExecuteCommand\ExecuteCommandLauncher.cs" />
     <Compile Include="Commands\ExecuteCommand\XmlExecuteCommand.cs" />
+    <Compile Include="Commands\XPathReplacer\XmlXOneEnvironmentSetterCommand.cs" />
     <Compile Include="Commands\XPathReplacer\XmlXPathReplacerCommand.cs" />
     <Compile Include="Commands\XPathReplacer\XPathReplacer.cs" />
     <Compile Include="Commands\XPathReplacer\XPathReplacerCommand.cs" />

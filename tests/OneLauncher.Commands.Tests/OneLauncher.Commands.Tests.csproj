@@ -60,6 +60,7 @@
     <Compile Include="Commands\CopyFile\XmlCopierCommandTests.cs" />
     <Compile Include="Commands\ExecuteCommand\ExecuteCommandLauncherTests.cs" />
     <Compile Include="Commands\ExecuteCommand\XmlExecuteCommandTests.cs" />
+    <Compile Include="Commands\XPathReplacer\XmlXOneEnvironmentSetterCommandTests.cs" />
     <Compile Include="Commands\XPathReplacer\XmlXPathReplacerCommandTests.cs" />
     <Compile Include="Commands\XPathReplacer\XPathReplacerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Data\OmniLauncher.Tests.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\OmniLauncher.Tests.dll.expected.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
