@@ -1,11 +1,10 @@
 using NUnit.Framework;
 using OneLauncher.Commands.Commands.ExecuteCommand;
-using OneLauncher.Services.ConfigurationLoader.Xml;
 
-namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Commands.Tests.Commands.ExecuteCommand
 {
     [TestFixture]
-    public class XmlExecuteCommandTests : CommonXmlCommandTests<XmlExecuteCommand, ExecuteCommand>
+    public class XmlExecuteCommandTests : CommonXmlCommandTests<XmlExecuteCommand, OneLauncher.Commands.Commands.ExecuteCommand.ExecuteCommand>
     {
         protected override string GetTemplateXml()
         {
@@ -26,7 +25,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
             return xmlCommand;
         }
 
-        protected override void AssertCommandExtractedFromXmlCommand(ExecuteCommand command)
+        protected override void AssertCommandExtractedFromXmlCommand(OneLauncher.Commands.Commands.ExecuteCommand.ExecuteCommand command)
         {
             Assert.That(command.Command, Is.EqualTo("Kill Jar-Jar.cmd"));
         }

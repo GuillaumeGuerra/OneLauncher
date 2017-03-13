@@ -5,10 +5,10 @@ using System.Threading;
 using NUnit.Framework;
 using OneLauncher.Commands.Commands.ExecuteCommand;
 
-namespace OneLauncher.Tests.Services.CommandLauncher
+namespace OneLauncher.Commands.Tests.Commands.ExecuteCommand
 {
     [TestFixture]
-    public class ExecuteCommandLauncherTests : CommonCommandLauncherTests<ExecuteCommandLauncher, ExecuteCommand>
+    public class ExecuteCommandLauncherTests : CommonCommandLauncherTests<ExecuteCommandLauncher, OneLauncher.Commands.Commands.ExecuteCommand.ExecuteCommand>
     {
         [Test]
         public void ShouldLaunchConsoleAppWhenCommandIsValid()
@@ -16,7 +16,7 @@ namespace OneLauncher.Tests.Services.CommandLauncher
             // So far, no process should be running
             Assert.That(Process.GetProcessesByName("TestConsoleApplication"), Has.Length.EqualTo(0));
 
-            new ExecuteCommandLauncher().Execute(new ExecuteCommand() { Command = "TestConsoleApplication.exe" });
+            new ExecuteCommandLauncher().Execute(new OneLauncher.Commands.Commands.ExecuteCommand.ExecuteCommand() { Command = "TestConsoleApplication.exe" });
 
             // Wait for a few milliseconds, to ensure the process had time to start
             Thread.Sleep(1000);

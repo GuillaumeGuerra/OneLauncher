@@ -3,7 +3,7 @@ using NUnit.Framework;
 using OneLauncher.Commands.Commands.CopyFile;
 using OneLauncher.Tests.Framework;
 
-namespace OneLauncher.Tests.Services.CommandLauncher
+namespace OneLauncher.Commands.Tests.Commands.CopyFile
 {
     [TestFixture]
     public class FileCopierTests : CommonCommandLauncherTests<FileCopier, FileCopierCommand>

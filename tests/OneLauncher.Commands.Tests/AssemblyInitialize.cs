@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using OneLauncher.Core.Container;
 
-namespace OneLauncher.Tests
+namespace OneLauncher.Commands.Tests
 {
     [SetUpFixture]
     public class AssemblyInitialize

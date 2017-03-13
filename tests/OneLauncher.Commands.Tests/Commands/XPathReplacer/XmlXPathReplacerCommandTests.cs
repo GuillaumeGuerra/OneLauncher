@@ -1,9 +1,7 @@
 using NUnit.Framework;
 using OneLauncher.Commands.Commands.XPathReplacer;
-using OneLauncher.Services.ConfigurationLoader;
-using OneLauncher.Services.ConfigurationLoader.Xml;
 
-namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Commands.Tests.Commands.XPathReplacer
 {
     [TestFixture]
     public class XmlXPathReplacerCommandTests : CommonXmlCommandTests<XmlXPathReplacerCommand, XPathReplacerCommand>

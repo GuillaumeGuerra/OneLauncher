@@ -4,7 +4,7 @@ using OneLauncher.Core.Commands;
 using OneLauncher.Services.ConfigurationLoader.Xml;
 using OneLauncher.Tests.Framework;
 
-namespace OneLauncher.Tests.Services.ConfigurationLoader.Xml
+namespace OneLauncher.Commands.Tests.Commands
 {
     [TestFixture]
     public abstract class CommonXmlCommandTests<TXmlCommand, TCommand>

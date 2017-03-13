@@ -106,27 +106,5 @@ namespace OneLauncher.Tests.Services.LauncherService
                 }
             });
         }
-
-        [Test]
-        public void AllCommandLauncherPluginsShouldHaveADedicatedTestClass()
-        {
-            var testedTypes =
-                Assembly.GetExecutingAssembly()
-                    .GetTypes()
-                    .Where(
-                        t =>
-                            t.BaseType != null &&
-                            t.BaseType.IsGenericType &&
-                            t.BaseType.GetGenericTypeDefinition() == typeof(CommonCommandLauncherTests<,>))
-                            .Select(t => t.BaseType.GetGenericArguments()[0])
-                    .ToList();
-
-            foreach (var plugin in OneLauncherContainer.Instance.GetImplementations<ICommandLauncher>())
-            {
-                var pluginType = plugin.GetType();
-                if (testedTypes.All(t => t != pluginType))
-                    Assert.Fail($"Missing test class for ICommandLauncher type [{pluginType.FullName}]");
-            }
-        }
     }
 }

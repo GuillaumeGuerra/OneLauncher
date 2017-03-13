@@ -73,19 +73,11 @@
     <Compile Include="AssemblyInitialize.cs" />
     <Compile Include="Framework\TestContext.cs" />
     <Compile Include="Services\CommandLauncher\BaseCommandLauncherTests.cs" />
-    <Compile Include="Services\CommandLauncher\CommonCommandLauncherTests.cs" />
-    <Compile Include="Services\CommandLauncher\ExecuteCommandLauncherTests.cs" />
-    <Compile Include="Services\CommandLauncher\FileCopierTests.cs" />
-    <Compile Include="Services\CommandLauncher\XPathReplacerTests.cs" />
     <Compile Include="Services\ConfigurationLoader\ConfigurationLoaderTests.cs" />
     <Compile Include="Framework\ContainerOverrider.cs" />
     <Compile Include="Framework\ContainerOverriderTests.cs" />
     <Compile Include="Framework\TemporaryDirectory.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\CommonXmlCommandTests.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlCopierCommandTests.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlExecuteCommandTests.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationProcessorTests.cs" />
-    <Compile Include="Services\ConfigurationLoader\Xml\XmlXPathReplacerCommandTests.cs" />
     <Compile Include="Services\Context\OneLauncherContextTests.cs" />
     <Compile Include="Services\LauncherService\LauncherServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -151,10 +143,6 @@
     <ProjectReference Include="..\..\src\OneLauncher\OneLauncher.csproj">
       <Project>{69025ce8-eacd-4f92-afde-14e92ccf4aa3}</Project>
       <Name>OneLauncher</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestConsoleApplication\TestConsoleApplication.csproj">
-      <Project>{d68a669e-7681-476d-bf11-4988a471cac5}</Project>
-      <Name>TestConsoleApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
