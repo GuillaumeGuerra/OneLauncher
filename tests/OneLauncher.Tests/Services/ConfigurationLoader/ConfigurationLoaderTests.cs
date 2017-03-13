@@ -8,6 +8,7 @@ using OneLauncher.Commands.Commands.ExecuteCommand;
 using OneLauncher.Core.Commands;
 using OneLauncher.Framework;
 using OneLauncher.Services.ConfigurationLoader;
+using OneLauncher.Services.Context;
 using OneLauncher.Tests.Framework;
 using ConfigLoader = OneLauncher.Services.ConfigurationLoader.ConfigurationLoader;
 
@@ -17,39 +18,93 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
     public class ConfigurationLoaderTests
     {
         [Test]
-        public void ShouldReadAllFilesLocatedInTheConfigurationDirectoryWithTheRightPlugin()
+        public void ShouldReadAllFilesLocatedInTheConfigurationAndUserSettingsDirectoriesWithTheRightPlugin()
         {
-            using (var directory = new TemporaryDirectory())
+            using (var configurationDirectory = new TemporaryDirectory())
+            using (var userSettingsDirectory = new TemporaryDirectory())
             {
-                File.WriteAllText($"{directory.Location}\\file1.xml", "");
-                File.WriteAllText($"{directory.Location}\\file2.json", "");
+                Directory.CreateDirectory($"{configurationDirectory.Location}\\Launchers");
+                Directory.CreateDirectory($"{userSettingsDirectory.Location}\\Launchers");
+
+                // First, we fill the configuration directory with some launcher files
+                File.WriteAllText($"{configurationDirectory.Location}\\Launchers\\file1.xml", "");
+                File.WriteAllText($"{configurationDirectory.Location}\\Launchers\\file2.json", "");
 
                 // This one is not known by any plugin, it should be ignored
-                File.WriteAllText($"{directory.Location}\\file3.bin", "");
+                File.WriteAllText($"{configurationDirectory.Location}\\Launchers\\file3.bin", "");
 
-                var firstNode = new LaunchersNode() { Header = "Header1" };
-                var secondNode = new LaunchersNode() { Header = "Header2" };
+                // Now, we'll add one more file, in the user settings directory this time
+                File.WriteAllText($"{userSettingsDirectory.Location}\\Launchers\\file4.txt", "");
+
+                var xmlNode = new LaunchersNode() { Header = "Header1" };
+                var jsonNode = new LaunchersNode() { Header = "Header2" };
+                var txtNode = new LaunchersNode() { Header = "Header3" };
 
                 var xmlLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-                xmlLoader.Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                xmlLoader
+                    .Setup(mock => mock.CanProcess(It.IsAny<string>()))
                     .Returns<string>(s => s.EndsWith(".xml"))
                     .Verifiable();
-                xmlLoader.Setup(mock => mock.Load($"{directory.Location}\\file1.xml")).Returns(new[] { firstNode }).Verifiable();
+                xmlLoader
+                    .Setup(mock => mock.Load($"{configurationDirectory.Location}\\Launchers\\file1.xml"))
+                    .Returns(new[] { xmlNode })
+                    .Verifiable();
 
                 var jsonLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-                jsonLoader.Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                jsonLoader
+                    .Setup(mock => mock.CanProcess(It.IsAny<string>()))
                     .Returns<string>(s => s.EndsWith(".json"))
                     .Verifiable();
-                jsonLoader.Setup(mock => mock.Load($"{directory.Location}\\file2.json")).Returns(new[] { secondNode }).Verifiable();
+                jsonLoader
+                    .Setup(mock => mock.Load($"{configurationDirectory.Location}\\Launchers\\file2.json"))
+                    .Returns(new[] { jsonNode })
+                    .Verifiable();
 
-                var loader = new ConfigLoader() { AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object } };
-                var launchers = loader.LoadConfiguration(directory.Location).ToList();
+                var txtLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
+                txtLoader
+                    .Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                    .Returns<string>(s => s.EndsWith(".txt"))
+                    .Verifiable();
+                txtLoader
+                    .Setup(mock => mock.Load($"{userSettingsDirectory.Location}\\Launchers\\file4.txt"))
+                    .Returns(new[] { txtNode })
+                    .Verifiable();
 
-                Assert.That(launchers, Has.Count.EqualTo(2));
-                Assert.That(launchers[0], Is.SameAs(firstNode));
-                Assert.That(launchers[1], Is.SameAs(secondNode));
+                var loader = new ConfigLoader()
+                {
+                    AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object, txtLoader.Object },
+                    Context = new OneLaunchContextMock().WithUserSettingsDirectory(userSettingsDirectory.Location)
+                };
+                var launchers = loader.LoadConfiguration(configurationDirectory.Location).ToList();
+
+                Assert.That(launchers, Has.Count.EqualTo(3));
+                Assert.That(launchers[0], Is.SameAs(xmlNode));
+                Assert.That(launchers[1], Is.SameAs(jsonNode));
+                Assert.That(launchers[2], Is.SameAs(txtNode));
 
                 xmlLoader.VerifyAll();
+                jsonLoader.VerifyAll();
+                txtLoader.VerifyAll();
+            }
+        }
+
+        [Test]
+        public void ShouldNotLoadUserLaunchersIfTheUserLaunchersDirectoryDoesNotExist()
+        {
+            using (var configurationDirectory = new TemporaryDirectory())
+            using (var userSettingsDirectory = new TemporaryDirectory())
+            {
+                Directory.CreateDirectory($"{configurationDirectory.Location}\\Launchers");
+                // We don't create the Launchers directory in the user settings directory
+
+                var loader = new ConfigLoader()
+                {
+                    AllConfigurationProcessors = Enumerable.Empty<ILauncherConfigurationProcessor>(),
+                    Context = new OneLaunchContextMock().WithUserSettingsDirectory(userSettingsDirectory.Location)
+                };
+                var launchers = loader.LoadConfiguration(configurationDirectory.Location).ToList();
+
+                Assert.That(launchers, Has.Count.EqualTo(0));
             }
         }
 
@@ -140,17 +195,20 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                 Launchers = { new LauncherLink() }
             };
 
-            using (var directory = new TemporaryDirectory())
+            using (var configurationDirectory = new TemporaryDirectory())
+            using (var userSettingsDirectory = new TemporaryDirectory())
             {
-                File.WriteAllText($"{directory.Location}\\1.1", "");
+                Directory.CreateDirectory($"{configurationDirectory.Location}\\Launchers");
+                File.WriteAllText($"{configurationDirectory.Location}\\Launchers\\1.1", "");
 
                 var loaderMock = CreateMockProcessor(firstNode, secondNode, thirdNode, fourthNode);
 
                 var loader = new ConfigLoader()
                 {
-                    AllConfigurationProcessors = new[] { loaderMock.Object }
+                    AllConfigurationProcessors = new[] { loaderMock.Object },
+                    Context = new OneLaunchContextMock().WithUserSettingsDirectory(userSettingsDirectory.Location)
                 };
-                var launchers = loader.LoadConfiguration(directory.Location).ToList();
+                var launchers = loader.LoadConfiguration(configurationDirectory.Location).ToList();
 
                 Assert.That(launchers, Has.Count.EqualTo(2));
 

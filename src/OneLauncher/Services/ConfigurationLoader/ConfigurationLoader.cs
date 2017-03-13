@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OneLauncher.Framework;
+using OneLauncher.Services.Context;
 
 namespace OneLauncher.Services.ConfigurationLoader
 {
     public class ConfigurationLoader : IConfigurationLoader
     {
         public IEnumerable<ILauncherConfigurationProcessor> AllConfigurationProcessors { get; set; }
+        public IOneLauncherContext Context { get; set; }
 
         public IEnumerable<LaunchersNode> LoadConfiguration(string path)
         {
             var launchers = Enumerable.Empty<LaunchersNode>();
 
-            foreach (var file in Directory.GetFiles(path, "*.*", SearchOption.AllDirectories))
+            var binaryLaunchers = Directory.GetFiles(Path.Combine(path, "Launchers"), "*.*", SearchOption.AllDirectories);
+            var userLaunchersDirectory = Path.Combine(Context.ApplicationSettings.UserSettingsDirectory, "Launchers");
+            var userLaunchers = Directory.Exists(userLaunchersDirectory) ? Directory.GetFiles(userLaunchersDirectory, "*.*", SearchOption.AllDirectories) : new string[0];
+
+            foreach (var file in binaryLaunchers.Concat(userLaunchers))
             {
                 var plugin = AllConfigurationProcessors.FirstOrDefault(p => p.CanProcess(file));
 

@@ -71,7 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInitialize.cs" />
-    <Compile Include="Framework\TestContext.cs" />
+    <Compile Include="Framework\OneLaunchContextMock.cs" />
+    <Compile Include="Framework\OneLauncherContextMockExtensions.cs" />
     <Compile Include="Services\CommandLauncher\BaseCommandLauncherTests.cs" />
     <Compile Include="Services\ConfigurationLoader\ConfigurationLoaderTests.cs" />
     <Compile Include="Framework\ContainerOverrider.cs" />

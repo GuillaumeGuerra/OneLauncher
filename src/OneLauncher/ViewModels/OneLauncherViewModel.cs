@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -66,7 +67,7 @@ namespace OneLauncher.ViewModels
 
         private async Task FillLaunchers()
         {
-            var launchersNodes = await Task.Run(() => ConfigurationLoader.LoadConfiguration("Launchers"));
+            var launchersNodes = await Task.Run(() => ConfigurationLoader.LoadConfiguration(Environment.CurrentDirectory));
 
             Launchers = new ObservableCollection<RadialMenuItem>(RadialMenuItemBuilder.BuildMenuItems(launchersNodes, this));
 
