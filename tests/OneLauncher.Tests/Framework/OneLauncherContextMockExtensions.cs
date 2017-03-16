@@ -4,14 +4,21 @@ namespace OneLauncher.Tests.Framework
 {
     public static class OneLauncherContextMockExtensions
     {
-        public static OneLaunchContextMock WithUserSettingsDirectory(this OneLaunchContextMock mock, string directory)
+        public static OneLaunchContextMock WithUserSettingsDirectory(this OneLaunchContextMock context, string directory)
         {
-            if(mock.ApplicationSettings==null)
-                mock.ApplicationSettings=new ApplicationSettings();
+            if (context.ApplicationSettings == null)
+                context.ApplicationSettings = new ApplicationSettings();
 
-            mock.ApplicationSettings.UserSettingsDirectory = directory;
+            context.ApplicationSettings.UserSettingsDirectory = directory;
 
-            return mock;
+            return context;
+        }
+
+        public static OneLaunchContextMock WithUserSettings(this OneLaunchContextMock context, UserSettings settings)
+        {
+            context.UserSettings = settings;
+
+            return context;
         }
     }
 }

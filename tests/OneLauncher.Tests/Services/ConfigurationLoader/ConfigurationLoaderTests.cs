@@ -24,7 +24,8 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
             using (var userSettingsDirectory = new TemporaryDirectory())
             {
                 Directory.CreateDirectory($"{configurationDirectory.Location}\\Launchers");
-                Directory.CreateDirectory($"{userSettingsDirectory.Location}\\Launchers");
+                Directory.CreateDirectory($"{userSettingsDirectory.Location}\\OneLauncher");
+                Directory.CreateDirectory($"{userSettingsDirectory.Location}\\OneLauncher\\Launchers");
 
                 // First, we fill the configuration directory with some launcher files
                 File.WriteAllText($"{configurationDirectory.Location}\\Launchers\\file1.xml", "");
@@ -34,7 +35,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                 File.WriteAllText($"{configurationDirectory.Location}\\Launchers\\file3.bin", "");
 
                 // Now, we'll add one more file, in the user settings directory this time
-                File.WriteAllText($"{userSettingsDirectory.Location}\\Launchers\\file4.txt", "");
+                File.WriteAllText($"{userSettingsDirectory.Location}\\OneLauncher\\Launchers\\file4.txt", "");
 
                 var xmlNode = new LaunchersNode() { Header = "Header1" };
                 var jsonNode = new LaunchersNode() { Header = "Header2" };
@@ -66,7 +67,7 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                     .Returns<string>(s => s.EndsWith(".txt"))
                     .Verifiable();
                 txtLoader
-                    .Setup(mock => mock.Load($"{userSettingsDirectory.Location}\\Launchers\\file4.txt"))
+                    .Setup(mock => mock.Load($"{userSettingsDirectory.Location}\\OneLauncher\\Launchers\\file4.txt"))
                     .Returns(new[] { txtNode })
                     .Verifiable();
 

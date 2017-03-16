@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Autofac;
 using Autofac.AttributeExtensions;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Controls.Menus;
 using OneLauncher.Core.Container;
@@ -17,22 +18,28 @@ using OneLauncher.Views;
 namespace OneLauncher.ViewModels
 {
     [SingleInstance]
-    public class OneLauncherViewModel : DependencyObject
+    public class OneLauncherViewModel : ViewModelBase
     {
-        public static readonly DependencyProperty LaunchersProperty =
-            DependencyProperty.Register("Launchers", typeof(ObservableCollection<RadialMenuItem>), typeof(OneLauncherViewModel), new PropertyMetadata(new ObservableCollection<RadialMenuItem>()));
-        public static readonly DependencyProperty IsOpenedProperty =
-            DependencyProperty.Register("IsOpened", typeof(bool), typeof(OneLauncherViewModel), new PropertyMetadata(false));
+        private ObservableCollection<RadialMenuItem> _launchers = new ObservableCollection<RadialMenuItem>();
+        private bool _isOpened;
 
         public ObservableCollection<RadialMenuItem> Launchers
         {
-            get { return (ObservableCollection<RadialMenuItem>)GetValue(LaunchersProperty); }
-            set { SetValue(LaunchersProperty, value); }
+            get { return _launchers; }
+            set
+            {
+                _launchers = value;
+                RaisePropertyChanged();
+            }
         }
         public bool IsOpened
         {
-            get { return (bool)GetValue(IsOpenedProperty); }
-            set { SetValue(IsOpenedProperty, value); }
+            get { return _isOpened; }
+            set
+            {
+                _isOpened = value;
+                RaisePropertyChanged();
+            }
         }
 
         public IRadialMenuItemBuilder RadialMenuItemBuilder { get; set; }

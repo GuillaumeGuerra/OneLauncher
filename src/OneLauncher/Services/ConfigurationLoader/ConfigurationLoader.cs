@@ -17,7 +17,7 @@ namespace OneLauncher.Services.ConfigurationLoader
             var launchers = Enumerable.Empty<LaunchersNode>();
 
             var binaryLaunchers = Directory.GetFiles(Path.Combine(path, "Launchers"), "*.*", SearchOption.AllDirectories);
-            var userLaunchersDirectory = Path.Combine(Context.ApplicationSettings.UserSettingsDirectory, "Launchers");
+            var userLaunchersDirectory = Path.Combine(Context.ApplicationSettings.UserSettingsDirectory,"OneLauncher", "Launchers");
             var userLaunchers = Directory.Exists(userLaunchersDirectory) ? Directory.GetFiles(userLaunchersDirectory, "*.*", SearchOption.AllDirectories) : new string[0];
 
             foreach (var file in binaryLaunchers.Concat(userLaunchers))

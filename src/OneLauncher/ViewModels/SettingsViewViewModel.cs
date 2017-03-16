@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Autofac;
 using Autofac.AttributeExtensions;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Windows.Internal;
 using OneLauncher.Core.Container;
@@ -17,22 +18,28 @@ using OneLauncher.Services.RadialMenuItemBuilder;
 namespace OneLauncher.ViewModels
 {
     [SingleInstance]
-    public class SettingsViewViewModel : DependencyObject
+    public class SettingsViewViewModel : ViewModelBase
     {
-        public static readonly DependencyProperty RepositoriesProperty =
-            DependencyProperty.Register("Repositories", typeof(TrulyObservableCollection<RepositoryViewModel>), typeof(SettingsViewViewModel));
-        public static readonly DependencyProperty SettingsChangedProperty =
-            DependencyProperty.Register("SettingsChanged", typeof(bool), typeof(SettingsViewViewModel), new PropertyMetadata(false));
+        private bool _settingsChanged;
+        private TrulyObservableCollection<RepositoryViewModel> _repositories;
 
         public bool SettingsChanged
         {
-            get { return (bool)GetValue(SettingsChangedProperty); }
-            set { SetValue(SettingsChangedProperty, value); }
+            get { return _settingsChanged; }
+            set
+            {
+                _settingsChanged = value;
+                RaisePropertyChanged();
+            }
         }
         public TrulyObservableCollection<RepositoryViewModel> Repositories
         {
-            get { return (TrulyObservableCollection<RepositoryViewModel>)GetValue(RepositoriesProperty); }
-            set { SetValue(RepositoriesProperty, value); }
+            get { return _repositories; }
+            set
+            {
+                _repositories = value;
+                RaisePropertyChanged();
+            }
         }
 
         public IOneLauncherContext Context { get; set; }
