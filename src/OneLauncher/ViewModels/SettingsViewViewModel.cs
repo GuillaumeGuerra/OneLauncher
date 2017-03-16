@@ -22,6 +22,9 @@ namespace OneLauncher.ViewModels
     {
         private bool _settingsChanged;
         private TrulyObservableCollection<RepositoryViewModel> _repositories;
+        private bool _aboutWindowVisibility;
+
+        public IOneLauncherContext Context { get; set; }
 
         public bool SettingsChanged
         {
@@ -41,8 +44,16 @@ namespace OneLauncher.ViewModels
                 RaisePropertyChanged();
             }
         }
+        public bool AboutWindowVisibility
+        {
+            get { return _aboutWindowVisibility; }
+            set
+            {
+                _aboutWindowVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
 
-        public IOneLauncherContext Context { get; set; }
         public ICommand LoadedCommand
         {
             get { return new RelayCommand(Loaded); }
@@ -54,6 +65,10 @@ namespace OneLauncher.ViewModels
         public ICommand ClosingCommand
         {
             get { return new RelayCommand<CancelEventArgs>(Closing); }
+        }
+        public ICommand OpenAboutWindowCommand
+        {
+            get { return new RelayCommand(OpenWindow); }
         }
 
         public SettingsViewViewModel()
@@ -108,10 +123,15 @@ namespace OneLauncher.ViewModels
             if (!SettingsChanged)
                 return;
 
-            if (MessageBox.Show(App.Current.Windows[0], "You did not save your changes, are you sure you quit ?", "Warning",
+            if (MessageBox.Show(App.Current.Windows[0], "You did not save your changes, are you sure you want to quit ?", "Warning",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
                 e.Cancel = true;
 
+        }
+
+        private void OpenWindow()
+        {
+            AboutWindowVisibility = true;
         }
     }
 }
