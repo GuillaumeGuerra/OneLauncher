@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -70,6 +71,10 @@ namespace OneLauncher.ViewModels
         {
             get { return new RelayCommand(OpenWindow); }
         }
+        public ICommand NavigateToUriCommand
+        {
+            get { return new RelayCommand<string>(Navigate); }
+        }
 
         public SettingsViewViewModel()
         {
@@ -132,6 +137,11 @@ namespace OneLauncher.ViewModels
         private void OpenWindow()
         {
             AboutWindowVisibility = true;
+        }
+
+        private void Navigate(string url)
+        {
+            Process.Start(url);
         }
     }
 }

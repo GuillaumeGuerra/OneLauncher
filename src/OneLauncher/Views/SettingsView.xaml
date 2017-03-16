@@ -40,8 +40,9 @@
             <mah:Flyout Header="About" Position="Right" Width="400" IsOpen="{Binding AboutWindowVisibility, Mode=TwoWay}">
                 <StackPanel Orientation="Vertical" Margin="20">
                     <TextBlock Style="{StaticResource AboutTextBlockStyle}">Author : Guillaume Guerra</TextBlock>
-                    <TextBlock Style="{StaticResource AboutTextBlockStyle}">Sources : <Hyperlink NavigateUri="https://github.com/GuillaumeGuerra/OneLauncher">GitHub</Hyperlink> <![CDATA[&]]> <Hyperlink NavigateUri="https://github.com/GuillaumeGuerra/OneLauncher">SGitHub</Hyperlink></TextBlock>
-                    <TextBlock Style="{StaticResource AboutTextBlockStyle}">I hope you'll like that tool</TextBlock>
+                    <TextBlock Style="{StaticResource AboutTextBlockStyle}">Sources : <Hyperlink Command="{Binding NavigateToUriCommand}" CommandParameter="https://github.com/GuillaumeGuerra/OneLauncher">GitHub</Hyperlink> <![CDATA[&]]> <Hyperlink Command="{Binding NavigateToUriCommand}" CommandParameter="https://github.com/GuillaumeGuerra/OneLauncher">SGitHub</Hyperlink></TextBlock>
+                    <TextBlock TextWrapping="Wrap" Style="{StaticResource AboutTextBlockStyle}" Margin="10,30,10,10">If you like that tool (and I hope you do :)), please participate : send comments, add launchers, features, etc.</TextBlock>
+                    <TextBlock TextWrapping="Wrap" Style="{StaticResource AboutTextBlockStyle}">We want you !</TextBlock>
                 </StackPanel>
             </mah:Flyout>
         </mah:FlyoutsControl>
