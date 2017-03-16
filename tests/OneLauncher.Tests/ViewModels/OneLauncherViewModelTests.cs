@@ -5,7 +5,6 @@ using Autofac;
 using Infragistics.Controls.Menus;
 using Moq;
 using NUnit.Framework;
-using OneLauncher.Framework;
 using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.Context;
 using OneLauncher.Services.RadialMenuItemBuilder;
@@ -82,128 +81,6 @@ namespace OneLauncher.Tests.ViewModels
                 builder.VerifyAll();
                 settings.VerifyAll();
             }
-        }
-    }
-
-    [TestFixture]
-    public class SettingsViewViewModelTests
-    {
-        [Test]
-        public void ShouldInitializeSettingsWhenLoaded()
-        {
-            var context =
-                new OneLaunchContextMock().WithUserSettings(new UserSettings()
-                {
-                    Repositories =
-                        new Dictionary<string, List<Repository>>()
-                        {
-                            {
-                                "REPO1", new List<Repository>()
-                                {
-                                    new Repository() {Path = "Path1", Name = "Name1"},
-                                    new Repository() {Path = "Path2", Name = "Name2"}
-                                }
-                            },
-                            {
-                                "REPO2", new List<Repository>()
-                                {
-                                    new Repository() {Path = "Path3", Name = "Name3"},
-                                }
-                            }
-                        }
-                });
-
-            var vm = new SettingsViewViewModel()
-            {
-                Context = context
-            };
-
-            Assert.That(vm.Repositories, Has.Count.EqualTo(0));
-            Assert.That(vm.SettingsChanged, Is.False);
-
-            vm.LoadedCommand.Execute(null);
-
-            // The repository dico should have been flatten
-            Assert.That(vm.Repositories, Has.Count.EqualTo(3));
-            AssertRepositoryViewModel(vm.Repositories[0], "REPO1", "Name1", "Path1");
-            AssertRepositoryViewModel(vm.Repositories[1], "REPO1", "Name2", "Path2");
-            AssertRepositoryViewModel(vm.Repositories[2], "REPO2", "Name3", "Path3");
-
-            Assert.That(vm.SettingsChanged, Is.False);
-        }
-
-        [Test]
-        public void ShouldSwitchSettingsChangedWhenCollectionIsUpdated()
-        {
-            var context = new OneLaunchContextMock().WithUserSettings(UserSettings.GetDefaultSettings());
-
-            var vm = new SettingsViewViewModel()
-            {
-                Context = context
-            };
-            vm.LoadedCommand.Execute(null);
-
-            Assert.That(vm.SettingsChanged, Is.False);
-            Assert.That(vm.Repositories, Has.Count.GreaterThan(1));
-
-            vm.Repositories[0].Path = "Leia, you were soooo pretty";
-
-            Assert.That(vm.SettingsChanged, Is.True);
-        }
-
-        [Test]
-        public void ShouldBuildProperDictionaryWhenSavingSettings()
-        {
-            var settings = new UserSettings() { Repositories = null };
-
-            var context = new Mock<IOneLauncherContext>(MockBehavior.Strict);
-            context.SetupGet(mock => mock.UserSettings)
-                .Returns(settings)
-                .Verifiable();
-            context.Setup(mock => mock.SaveUserSettings())
-                .Verifiable();
-
-            var vm = new SettingsViewViewModel
-            {
-                Context = context.Object,
-                Repositories = new TrulyObservableCollection<RepositoryViewModel>()
-                {
-                    new RepositoryViewModel() {Type = "REPO1", Name = "Name1", Path = "Path1"},
-                    new RepositoryViewModel() {Type = "REPO2", Name = "Name2", Path = "Path2"}, // New repo, should be on its own in the dico
-                    new RepositoryViewModel() {Type = "REPO1", Name = "Name3", Path = "Path3"} // Should be grouped with first row
-                }
-            };
-
-            vm.SaveSettingsCommand.Execute(null);
-
-            var actual = settings.Repositories;
-            Assert.That(actual, Is.Not.Null);
-            Assert.That(actual, Has.Count.EqualTo(2));
-            Assert.That(actual.ContainsKey("REPO1"), Is.True);
-
-            var repo1 = actual["REPO1"];
-            Assert.That(repo1, Is.Not.Null);
-            Assert.That(repo1, Has.Count.EqualTo(2));
-            Assert.That(repo1[0].Name, Is.EqualTo("Name1"));
-            Assert.That(repo1[0].Path, Is.EqualTo("Path1"));
-            Assert.That(repo1[1].Name, Is.EqualTo("Name3"));
-            Assert.That(repo1[1].Path, Is.EqualTo("Path3"));
-
-            var repo2 = actual["REPO2"];
-            Assert.That(repo2, Is.Not.Null);
-            Assert.That(repo2, Has.Count.EqualTo(1));
-            Assert.That(repo2[0].Name, Is.EqualTo("Name2"));
-            Assert.That(repo2[0].Path, Is.EqualTo("Path2"));
-
-            context.VerifyAll();
-        }
-
-        private void AssertRepositoryViewModel(RepositoryViewModel vm, string type, string name, string path)
-        {
-            Assert.That(vm, Is.Not.Null);
-            Assert.That(vm.Type, Is.EqualTo(type));
-            Assert.That(vm.Name, Is.EqualTo(name));
-            Assert.That(vm.Path, Is.EqualTo(path));
         }
     }
 }

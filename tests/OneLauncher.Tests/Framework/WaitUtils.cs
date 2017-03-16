@@ -10,7 +10,7 @@ namespace OneLauncher.Tests.Framework
 {
     public class WaitUtils
     {
-        public static void WaitFor(Func<bool> predicate, int timeoutInSeconds, int repeatPredicateTimingInSeconds)
+        public static void WaitFor(Func<bool> predicate, int timeoutInSeconds, int repeatPredicateTimingInSeconds = 1)
         {
             //if(repeatPredicateTiming>timeout)
             //    throw new InvalidOperationException("The repeatPredicateTiming should not be bigger than");

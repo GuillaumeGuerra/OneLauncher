@@ -13,6 +13,9 @@ namespace OneLauncher.Services.Context
         [JsonProperty]
         public Dictionary<string, List<Repository>> Repositories { get; set; }
 
+        [JsonProperty]
+        public List<string> ExcludedLauncherFilePaths { get; set; }
+
         [JsonIgnore]
         public bool IsDefaultSettings { get; set; }
 

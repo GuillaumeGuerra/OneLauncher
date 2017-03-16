@@ -41,35 +41,9 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                 var jsonNode = new LaunchersNode() { Header = "Header2" };
                 var txtNode = new LaunchersNode() { Header = "Header3" };
 
-                var xmlLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-                xmlLoader
-                    .Setup(mock => mock.CanProcess(It.IsAny<string>()))
-                    .Returns<string>(s => s.EndsWith(".xml"))
-                    .Verifiable();
-                xmlLoader
-                    .Setup(mock => mock.Load($"{configurationDirectory.Location}\\Launchers\\file1.xml"))
-                    .Returns(new[] { xmlNode })
-                    .Verifiable();
-
-                var jsonLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-                jsonLoader
-                    .Setup(mock => mock.CanProcess(It.IsAny<string>()))
-                    .Returns<string>(s => s.EndsWith(".json"))
-                    .Verifiable();
-                jsonLoader
-                    .Setup(mock => mock.Load($"{configurationDirectory.Location}\\Launchers\\file2.json"))
-                    .Returns(new[] { jsonNode })
-                    .Verifiable();
-
-                var txtLoader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
-                txtLoader
-                    .Setup(mock => mock.CanProcess(It.IsAny<string>()))
-                    .Returns<string>(s => s.EndsWith(".txt"))
-                    .Verifiable();
-                txtLoader
-                    .Setup(mock => mock.Load($"{userSettingsDirectory.Location}\\OneLauncher\\Launchers\\file4.txt"))
-                    .Returns(new[] { txtNode })
-                    .Verifiable();
+                var xmlLoader = ConfigureProcessMock($"{configurationDirectory.Location}\\Launchers\\file1.xml", xmlNode, ".xml");
+                var jsonLoader = ConfigureProcessMock($"{configurationDirectory.Location}\\Launchers\\file2.json", jsonNode, ".json");
+                var txtLoader = ConfigureProcessMock($"{userSettingsDirectory.Location}\\OneLauncher\\Launchers\\file4.txt", txtNode, ".txt");
 
                 var loader = new ConfigLoader()
                 {
@@ -297,6 +271,67 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
             launchers.DeepClone();
         }
 
+        [Test]
+        public void ShouldDiscoverAllLauncherFiles()
+        {
+            using (var directory = new TemporaryDirectory())
+            {
+                Directory.CreateDirectory($"{directory.Location}\\Launchers");
+
+                File.WriteAllText($"{directory.Location}\\Launchers\\file1.xml", "");
+                File.WriteAllText($"{directory.Location}\\Launchers\\file2.json", "");
+
+                var xmlLoader = ConfigureProcessMock($"{directory.Location}\\Launchers\\file1.xml", new LaunchersNode(), ".xml");
+                var jsonLoader = ConfigureProcessMock($"{directory.Location}\\Launchers\\file2.json", new LaunchersNode(), ".json");
+
+                var loader = new ConfigLoader()
+                {
+                    AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object },
+                    Context = new OneLaunchContextMock().WithUserSettingsDirectory("")
+                };
+
+                var launchers = loader.DiscoverFiles(directory.Location).ToList();
+
+                Assert.That(launchers, Has.Count.EqualTo(2));
+                Assert.That(launchers[0].FilePath, Is.EqualTo($"{directory.Location}\\Launchers\\file1.xml"));
+                Assert.That(launchers[0].Processor, Is.SameAs(xmlLoader.Object));
+
+                Assert.That(launchers[1].FilePath, Is.EqualTo($"{directory.Location}\\Launchers\\file2.json"));
+                Assert.That(launchers[1].Processor, Is.SameAs(jsonLoader.Object));
+            }
+        }
+
+        [Test]
+        public void ShouldIgnoreLaunchersThatAreExcludedInTheUserSettings()
+        {
+            using (var directory = new TemporaryDirectory())
+            {
+                Directory.CreateDirectory($"{directory.Location}\\Launchers");
+
+                File.WriteAllText($"{directory.Location}\\Launchers\\file1.xml", "");
+                File.WriteAllText($"{directory.Location}\\Launchers\\file2.json", "");
+
+                var xmlNode = new LaunchersNode() { Header = "Header1" };
+                var jsonNode = new LaunchersNode() { Header = "Header2" };
+
+                var xmlLoader = ConfigureProcessMock($"{directory.Location}\\Launchers\\file1.xml", xmlNode, ".xml");
+                var jsonLoader = ConfigureProcessMock($"{directory.Location}\\Launchers\\file2.json", jsonNode, ".json");
+
+                var loader = new ConfigLoader()
+                {
+                    AllConfigurationProcessors = new[] { xmlLoader.Object, jsonLoader.Object },
+                    Context = new OneLaunchContextMock()
+                        .WithExcludedLaunchers($"{directory.Location}\\Launchers\\file1.xml") // We exclude the first file
+                        .WithUserSettingsDirectory(directory.Location)
+                };
+
+                var launchers = loader.LoadConfiguration(directory.Location).ToList();
+
+                Assert.That(launchers, Has.Count.EqualTo(1));
+                Assert.That(launchers[0], Is.SameAs(jsonNode));
+            }
+        }
+
         private Mock<ILauncherConfigurationProcessor> CreateMockProcessor(params LaunchersNode[] launchers)
         {
             var loader1 = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
@@ -305,6 +340,22 @@ namespace OneLauncher.Tests.Services.ConfigurationLoader
                 .Verifiable();
             loader1.Setup(mock => mock.Load(It.IsAny<string>())).Returns(launchers).Verifiable();
             return loader1;
+        }
+
+        private Mock<ILauncherConfigurationProcessor> ConfigureProcessMock(string filePath, LaunchersNode returnedNode, string filePatterm)
+        {
+            var loader = new Mock<ILauncherConfigurationProcessor>(MockBehavior.Strict);
+
+            loader
+                .Setup(mock => mock.CanProcess(It.IsAny<string>()))
+                .Returns<string>(s => s.EndsWith(filePatterm))
+                .Verifiable();
+            loader
+                .Setup(mock => mock.Load(filePath))
+                .Returns(new[] { returnedNode })
+                .Verifiable();
+
+            return loader;
         }
     }
 }

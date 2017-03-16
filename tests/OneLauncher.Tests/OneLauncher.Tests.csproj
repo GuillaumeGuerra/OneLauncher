@@ -115,6 +115,7 @@
     <Compile Include="Services\RadialMenuItemBuilder\RadialMenuItemBuilderTests.cs" />
     <Compile Include="ViewModels\OneLauncherViewModelTests.cs" />
     <Compile Include="Services\ConfigurationLoader\Xml\XmlLauncherConfigurationReaderTests.cs" />
+    <Compile Include="ViewModels\SettingsViewViewModelTests.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

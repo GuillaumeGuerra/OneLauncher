@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OneLauncher.ViewModels;
 
 namespace OneLauncher.Framework
 {
@@ -16,6 +17,14 @@ namespace OneLauncher.Framework
             : base()
         {
             CollectionChanged += TrulyObservableCollection_CollectionChanged;
+        }
+
+        public void AddRange(List<T> items)
+        {
+            foreach (var item in items)
+            {
+                Add(item);
+            }
         }
 
         private void TrulyObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

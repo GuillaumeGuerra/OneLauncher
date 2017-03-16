@@ -15,9 +15,23 @@ namespace OneLauncher.Services.ConfigurationLoader
         public IEnumerable<LaunchersNode> LoadConfiguration(string path)
         {
             var launchers = Enumerable.Empty<LaunchersNode>();
+            var excludedLaunchers = new HashSet<string>(Context.UserSettings.ExcludedLauncherFilePaths ?? new List<string>());
 
+            foreach (var file in DiscoverFiles(path))
+            {
+                if (excludedLaunchers.Contains(file.FilePath))
+                    continue;
+
+                launchers = launchers.Concat(file.Processor.Load(file.FilePath));
+            }
+
+            return MergeLaunchers(launchers);
+        }
+
+        public IEnumerable<DiscoveredLauncher> DiscoverFiles(string path)
+        {
             var binaryLaunchers = Directory.GetFiles(Path.Combine(path, "Launchers"), "*.*", SearchOption.AllDirectories);
-            var userLaunchersDirectory = Path.Combine(Context.ApplicationSettings.UserSettingsDirectory,"OneLauncher", "Launchers");
+            var userLaunchersDirectory = Path.Combine(Context.ApplicationSettings.UserSettingsDirectory, "OneLauncher", "Launchers");
             var userLaunchers = Directory.Exists(userLaunchersDirectory) ? Directory.GetFiles(userLaunchersDirectory, "*.*", SearchOption.AllDirectories) : new string[0];
 
             foreach (var file in binaryLaunchers.Concat(userLaunchers))
@@ -25,10 +39,8 @@ namespace OneLauncher.Services.ConfigurationLoader
                 var plugin = AllConfigurationProcessors.FirstOrDefault(p => p.CanProcess(file));
 
                 if (plugin != null)
-                    launchers = launchers.Concat(plugin.Load(file));
+                    yield return new DiscoveredLauncher() { FilePath = file, Processor = plugin };
             }
-
-            return MergeLaunchers(launchers);
         }
 
         private IEnumerable<LaunchersNode> MergeLaunchers(IEnumerable<LaunchersNode> launchers)

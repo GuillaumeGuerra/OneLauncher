@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace OneLauncher.Views
 {
@@ -24,10 +25,10 @@ namespace OneLauncher.Views
         {
             InitializeComponent();
         }
-    }
 
-    public interface ISettingsView
-    {
-        bool? ShowDialog();
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            await this.ShowMessageAsync("OMG, me too !", "Star Trek sucks :)");
+        }
     }
 }

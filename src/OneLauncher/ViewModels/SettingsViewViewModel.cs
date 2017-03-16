@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Autofac;
@@ -13,6 +15,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Infragistics.Windows.Internal;
 using OneLauncher.Core.Container;
 using OneLauncher.Framework;
+using OneLauncher.Services.ConfigurationLoader;
 using OneLauncher.Services.Context;
 using OneLauncher.Services.RadialMenuItemBuilder;
 
@@ -22,10 +25,12 @@ namespace OneLauncher.ViewModels
     public class SettingsViewViewModel : ViewModelBase
     {
         private bool _settingsChanged;
-        private TrulyObservableCollection<RepositoryViewModel> _repositories;
+        private TrulyObservableCollection<RepositoryViewModel> _repositories = new TrulyObservableCollection<RepositoryViewModel>();
+        private TrulyObservableCollection<LauncherViewModel> _launchers = new TrulyObservableCollection<LauncherViewModel>();
         private bool _aboutWindowVisibility;
 
         public IOneLauncherContext Context { get; set; }
+        public IConfigurationLoader Loader { get; set; }
 
         public bool SettingsChanged
         {
@@ -42,6 +47,15 @@ namespace OneLauncher.ViewModels
             set
             {
                 _repositories = value;
+                RaisePropertyChanged();
+            }
+        }
+        public TrulyObservableCollection<LauncherViewModel> Launchers
+        {
+            get { return _launchers; }
+            set
+            {
+                _launchers = value;
                 RaisePropertyChanged();
             }
         }
@@ -80,8 +94,8 @@ namespace OneLauncher.ViewModels
         {
             OneLauncherContainer.Instance.InjectProperties(this);
 
-            Repositories = new TrulyObservableCollection<RepositoryViewModel>();
             Repositories.CollectionChanged += Repositories_CollectionChanged;
+            Launchers.CollectionChanged += Repositories_CollectionChanged;
         }
 
         private void Repositories_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -89,15 +103,46 @@ namespace OneLauncher.ViewModels
             SettingsChanged = true;
         }
 
-        private void Loaded()
+        private async void Loaded()
         {
+            List<RepositoryViewModel> tmpRepositories = null;
+            List<LauncherViewModel> tmpLaunchers = null;
+            await Task.Run(() =>
+            {
+                tmpRepositories = GetRepositories();
+                tmpLaunchers = GetLaunchers();
+            });
+
             Repositories.Clear();
+            Repositories.AddRange(tmpRepositories);
+
+            Launchers.Clear();
+            Launchers.AddRange(tmpLaunchers);
+
+            SettingsChanged = false;
+        }
+
+        private List<LauncherViewModel> GetLaunchers()
+        {
+            var launchers = new List<LauncherViewModel>();
+            var excludedLaunchers = new HashSet<string>(Context.UserSettings.ExcludedLauncherFilePaths ?? new List<string>());
+
+            foreach (var launcher in Loader.DiscoverFiles(Environment.CurrentDirectory))
+            {
+                launchers.Add(new LauncherViewModel() { InnerDiscoveredLauncher = launcher, Active = !excludedLaunchers.Contains(launcher.FilePath) });
+            }
+            return launchers;
+        }
+
+        private List<RepositoryViewModel> GetRepositories()
+        {
+            var repositories = new List<RepositoryViewModel>();
 
             foreach (var repository in Context.UserSettings.Repositories)
             {
                 foreach (var repo in repository.Value)
                 {
-                    Repositories.Add(new RepositoryViewModel()
+                    repositories.Add(new RepositoryViewModel()
                     {
                         Type = repository.Key,
                         Name = repo.Name,
@@ -106,7 +151,7 @@ namespace OneLauncher.ViewModels
                 }
             }
 
-            SettingsChanged = false;
+            return repositories;
         }
 
         private void SaveSettings()
@@ -117,6 +162,9 @@ namespace OneLauncher.ViewModels
             {
                 Context.UserSettings.Repositories[group.Key] = group.Select(r => new Repository() { Name = r.Name, Path = r.Path }).ToList();
             }
+
+            Context.UserSettings.ExcludedLauncherFilePaths =
+                Launchers.Where(l => !l.Active).Select(l => l.Path).ToList();
 
             Context.SaveUserSettings();
 

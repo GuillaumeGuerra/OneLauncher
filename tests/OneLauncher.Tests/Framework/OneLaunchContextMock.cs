@@ -12,6 +12,12 @@ namespace OneLauncher.Tests.Framework
         public ApplicationSettings ApplicationSettings { get; set; }
         public UserSettings UserSettings { get; set; }
 
+        public OneLaunchContextMock()
+        {
+            ApplicationSettings = new ApplicationSettings();
+            UserSettings = new UserSettings();
+        }
+
         public void SaveUserSettings()
         {
             throw new NotImplementedException();

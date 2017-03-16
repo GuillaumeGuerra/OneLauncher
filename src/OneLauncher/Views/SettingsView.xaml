@@ -14,7 +14,8 @@
     Title="Settings" Height="600" Width="800"
     GlowBrush="{DynamicResource AccentColorBrush}"
     RightWindowCommandsOverlayBehavior="Always"
-    DataContext="{Binding SettingsViewViewModel, Source={StaticResource Locator}}" Icon="pack://siteoforigin:,,,/Resources/settings.ico" ResizeMode="CanResizeWithGrip" ShowIconOnTitleBar="False">
+    DataContext="{Binding SettingsViewViewModel, Source={StaticResource Locator}}"
+    Icon="pack://siteoforigin:,,,/Resources/settings.ico" ResizeMode="CanResizeWithGrip" ShowIconOnTitleBar="False">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -25,22 +26,34 @@
     </i:Interaction.Triggers>
     <mah:MetroWindow.Resources>
         <Style x:Key="AboutTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Margin" Value="10" />
         </Style>
     </mah:MetroWindow.Resources>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button>I like Star Wars !</Button>
-            <Button Content="About" Command="{Binding OpenAboutWindowCommand}"/>
+            <Button Click="ButtonBase_OnClick">I like Star Wars !</Button>
+            <Button Content="About" Command="{Binding OpenAboutWindowCommand}" />
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
-            <mah:Flyout Header="About" Position="Right" Width="400" IsOpen="{Binding AboutWindowVisibility, Mode=TwoWay}">
+            <mah:Flyout Header="About" Position="Right" Width="400"
+                        IsOpen="{Binding AboutWindowVisibility, Mode=TwoWay}">
                 <StackPanel Orientation="Vertical" Margin="20">
                     <TextBlock Style="{StaticResource AboutTextBlockStyle}">Author : Guillaume Guerra</TextBlock>
-                    <TextBlock Style="{StaticResource AboutTextBlockStyle}">Sources : <Hyperlink Command="{Binding NavigateToUriCommand}" CommandParameter="https://github.com/GuillaumeGuerra/OneLauncher">GitHub</Hyperlink> <![CDATA[&]]> <Hyperlink Command="{Binding NavigateToUriCommand}" CommandParameter="https://github.com/GuillaumeGuerra/OneLauncher">SGitHub</Hyperlink></TextBlock>
+                    <TextBlock Style="{StaticResource AboutTextBlockStyle}">
+                        Sources :
+                        <Hyperlink Command="{Binding NavigateToUriCommand}"
+                                   CommandParameter="https://github.com/GuillaumeGuerra/OneLauncher">
+                            GitHub
+                        </Hyperlink>
+                        <![CDATA[&]]>
+                        <Hyperlink Command="{Binding NavigateToUriCommand}"
+                                   CommandParameter="https://github.com/GuillaumeGuerra/OneLauncher">
+                            SGitHub
+                        </Hyperlink>
+                    </TextBlock>
                     <TextBlock TextWrapping="Wrap" Style="{StaticResource AboutTextBlockStyle}" Margin="10,30,10,10">If you like that tool (and I hope you do :)), please participate : send comments, add launchers, features, etc.</TextBlock>
                     <TextBlock TextWrapping="Wrap" Style="{StaticResource AboutTextBlockStyle}">We want you !</TextBlock>
                 </StackPanel>
@@ -55,9 +68,10 @@
         <TabControl>
             <TabItem Header="Repositories">
                 <igWPF:XamDataGrid AutoFit="False" Theme="Metro" BindToSampleData="True"
-                               DataSource="{Binding Repositories,Mode=TwoWay}" GroupByAreaLocation="None">
+                                   DataSource="{Binding Repositories,Mode=TwoWay}" GroupByAreaLocation="None">
                     <igWPF:XamDataGrid.FieldLayoutSettings>
-                        <igWPF:FieldLayoutSettings AllowFieldMoving="No" AddNewRecordLocation="OnBottom" AllowAddNew="True" AllowDelete="True" AutoGenerateFields="False"/>
+                        <igWPF:FieldLayoutSettings AllowFieldMoving="Yes" AddNewRecordLocation="OnBottom"
+                                                   AllowAddNew="True" AllowDelete="True" AutoGenerateFields="False" />
                     </igWPF:XamDataGrid.FieldLayoutSettings>
                     <igWPF:XamDataGrid.ViewSettings>
                         <igWPF:GridViewSettings />
@@ -65,9 +79,31 @@
                     <igWPF:XamDataGrid.FieldLayouts>
                         <igWPF:FieldLayout>
                             <igWPF:FieldLayout.Fields>
-                                <igWPF:Field Name="Type" Label="Repo type"/>
-                                <igWPF:Field Name="Name" Label="Alias"/>
-                                <igWPF:Field Name="Path" Label="Path" Width="Auto"/>
+                                <igWPF:Field Name="Type" Label="Repo type" />
+                                <igWPF:Field Name="Name" Label="Alias" />
+                                <igWPF:Field Name="Path" Label="Path" Width="Auto" />
+                            </igWPF:FieldLayout.Fields>
+                        </igWPF:FieldLayout>
+                    </igWPF:XamDataGrid.FieldLayouts>
+                </igWPF:XamDataGrid>
+            </TabItem>
+            <TabItem Header="Launchers">
+                <igWPF:XamDataGrid AutoFit="False" Theme="Metro" BindToSampleData="True"
+                                   DataSource="{Binding Launchers,Mode=TwoWay}" GroupByAreaLocation="None">
+                    <igWPF:XamDataGrid.FieldLayoutSettings>
+                        <igWPF:FieldLayoutSettings AllowFieldMoving="Yes"
+                                                   AllowAddNew="False" AutoGenerateFields="False" />
+                    </igWPF:XamDataGrid.FieldLayoutSettings>
+                    <igWPF:XamDataGrid.ViewSettings>
+                        <igWPF:GridViewSettings />
+                    </igWPF:XamDataGrid.ViewSettings>
+                    <igWPF:XamDataGrid.FieldLayouts>
+                        <igWPF:FieldLayout>
+                            <igWPF:FieldLayout.Fields>
+                                <igWPF:CheckBoxField Name="Active" Label="Active" />
+                                <igWPF:Field Name="Name" Label="Name" Width="Auto"/>
+                                <igWPF:Field Name="Loader" Label="Name" Width="Auto"/>
+                                <igWPF:Field Name="Path" Label="Path" Width="Auto" />
                             </igWPF:FieldLayout.Fields>
                         </igWPF:FieldLayout>
                     </igWPF:XamDataGrid.FieldLayouts>
@@ -77,27 +113,12 @@
 
             </TabItem>
         </TabControl>
-        <!--GroupBox Header="Repositories" BorderThickness="2" BorderBrush="Black">
-            
-        </GroupBox>-->
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" Margin="10" Orientation="Horizontal">
             <Button Width="80" IsCancel="True" IsEnabled="{Binding SettingsChanged}">Cancel</Button>
-            <Button Command="{Binding SaveSettingsCommand}" IsEnabled="{Binding SettingsChanged}" Width="80" Margin="20,0,0,0">Save</Button>
+            <Button Command="{Binding SaveSettingsCommand}" IsEnabled="{Binding SettingsChanged}" Width="80"
+                    Margin="20,0,0,0">
+                Save
+            </Button>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
